@@ -20,29 +20,12 @@ class User extends Authenticatable
         'username',
         'status_id',
         'password',
-        'id_role'
+        'id_role',
+        'status'
         
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
     ];
-
-    public function orangtua()
-    {
-        return $this->belongsTo('App\Models\Masterdata\orangtua', 'id_orangtua', 'id_orangtua');
-    }
-    public function guru()
-    {
-        return $this->belongsTo('App\Models\guru', 'id', 'id_guru');
-    }
-    public function kepsek()
-    {
-        return $this->belongsTo('App\Models\kepsek', 'id', 'id_kepsek');
-    }
 }
