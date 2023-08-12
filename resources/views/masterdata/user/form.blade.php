@@ -23,6 +23,4 @@
     <input type="text" name="id_penghubung" id="id_penghubung" hidden>
     <input type="submit" value="Submit">
 
-    
 </form>
-<button id="check_btn"> Tesss</button>

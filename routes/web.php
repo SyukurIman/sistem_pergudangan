@@ -43,9 +43,21 @@ Route::post('/delete_barang', [BarangController::class, 'destroy'])->name('baran
 Route::get('/admin/update_barang/{id}', [BarangController::class, 'edit'])->name('barang.edit');
 Route::post('/admin/update_barang/{id}', [BarangController::class, 'update'])->name('barang.update');
 Route::get('/admin/barang/add', [BarangController::class, 'create'])->name('barang.add');
-Route::get('/admin/barang/add', [BarangController::class, 'store'])->name('barang.add_form');
-Route::post('/admin/barang/generate_qr', [BarangController::class, 'create_qr'])->name('barang.generate_qr');
+Route::post('/admin/barang/add', [BarangController::class, 'store'])->name('barang.add_form');
 
-Route::get('/admin/barang/list_barang');
+Route::get('/admin/barang/dimensi/add', [BarangController::class, 'create_dimensi'])->name('barang.dimensi.add');
+Route::post('/admin/barang/dimensi/add', [BarangController::class, 'store_dimensi'])->name('barang.dimensi.add_form');
+
+Route::get('/admin/barang/kategori/add', [BarangController::class, 'create_kategori'])->name('barang.kategori.add');
+Route::post('/admin/barang/kategori/add', [BarangController::class, 'store_kategori'])->name('barang.kategori.add_form');
+
+Route::post('/admin/barang/genertae_qr/{data}', [BarangController::class, 'create_qr'])->name('barang.generate_qr');
+Route::get('/admin/barang/list_barang/{id}', [BarangController::class, 'list_barang'])->name('barang.list');
+Route::post('/data_list_barang/{id}', [BarangController::class, 'get_data_list'])->name('barang.list.get_data');
+Route::get('/admin/barang/list_barang/in/{id}', [BarangController::class, 'in_barang'])->name('barang.list.in');
+Route::get('/admin/barang/list_barang/out/{id}', [BarangController::class, 'out_barang'])->name('barang.list.out');
+
+
+
 
 // Set Penempatan

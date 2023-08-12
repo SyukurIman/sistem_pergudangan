@@ -22,4 +22,9 @@ class Barang extends Model
     {
         return $this->belongsTo(Dimensi_barang::class, 'id_dimensi', 'id');
     }
+
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'id_dimensi', 'id');
+    }
 }
