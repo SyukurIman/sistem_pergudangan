@@ -1,3 +1,5 @@
+<a href="/admin/barang/in/">Barang Masuk</a>
+<a href="/admin/barang/out/">Barang Keluar</a>
 <table id="table" class="table stripe" style="width: 100%;">
     <thead>
         <tr class="tr-table">

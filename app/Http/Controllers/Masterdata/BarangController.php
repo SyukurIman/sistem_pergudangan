@@ -37,11 +37,13 @@ class BarangController extends Controller
                 $btn .= '<div class="text-center">';
                 $btn .= '<div class="btn-group btn-group-solid mx-5">';
                 $btn .= '<button class="btn btn-secondary btn-raised btn-xs" id="btn-generate" title="Generate"><i class="icon-camera"></i></button>';
-                $btn .= '<a class="btn btn-warning ml-1" href="/admin/update_barang/'.$row->id.'"><i class="icon-edit"></i></a> ';
+                $btn .= '<a class="btn btn-warning mx-1" href="/admin/barang/list_barang/'.$row->id.'"><i class="icon-user"></i></a> ';
+                $btn .= '<a class="btn btn-warning mx-1" href="/admin/update_barang/'.$row->id.'"><i class="icon-edit"></i></a> ';
                 $btn .= '<button class="btn btn-danger btn-raised btn-xs" id="btn-hapus" title="Hapus"><i class="icon-trash"></i></button>';
                 $btn .= '</div>';    
                 $btn .= '</div>';
                 return $btn;
+                // /admin/barang/list_barang/
             })->make(true);
     }
 
