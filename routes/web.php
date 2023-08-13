@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Masterdata\BarangController;
 use App\Http\Controllers\Masterdata\PegawaiController;
 use App\Http\Controllers\Masterdata\UserController;
+use App\Http\Controllers\Transaksi\BarangTransaksiController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
@@ -52,11 +53,15 @@ Route::get('/admin/barang/kategori/add', [BarangController::class, 'create_kateg
 Route::post('/admin/barang/kategori/add', [BarangController::class, 'store_kategori'])->name('barang.kategori.add_form');
 
 Route::post('/admin/barang/genertae_qr/{data}', [BarangController::class, 'create_qr'])->name('barang.generate_qr');
-Route::get('/admin/barang/list_barang/{id}', [BarangController::class, 'list_barang'])->name('barang.list');
-Route::post('/data_list_barang/{id}', [BarangController::class, 'get_data_list'])->name('barang.list.get_data');
-Route::get('/admin/barang/list_barang/in/{id}', [BarangController::class, 'in_barang'])->name('barang.list.in');
-Route::get('/admin/barang/list_barang/out/{id}', [BarangController::class, 'out_barang'])->name('barang.list.out');
 
+Route::get('/admin/barang/list_barang/{id}', [BarangTransaksiController::class, 'list_barang'])->name('barang.list');
+Route::post('/data_list_barang/{id}', [BarangTransaksiController::class, 'get_data_list'])->name('barang.list.get_data');
+
+Route::get('/admin/barang/in/', [BarangTransaksiController::class, 'in_barang'])->name('barang.list.in');
+Route::post('/in_barang/{data}', [BarangTransaksiController::class, 'in_barang_save'])->name('barang.list.in_save');
+
+Route::get('/admin/barang/out/', [BarangTransaksiController::class, 'out_barang'])->name('barang.list.out');
+Route::post('/out_barang/{data}', [BarangTransaksiController::class, 'out_barang_save'])->name('barang.list.out_save');
 
 
 
