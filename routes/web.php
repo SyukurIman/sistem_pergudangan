@@ -48,21 +48,33 @@ Route::post('/admin/barang/add', [BarangController::class, 'store'])->name('bara
 
 Route::get('/admin/barang/dimensi/add', [BarangController::class, 'create_dimensi'])->name('barang.dimensi.add');
 Route::post('/admin/barang/dimensi/add', [BarangController::class, 'store_dimensi'])->name('barang.dimensi.add_form');
+Route::get('/admin/barang/dimensi/edit/{id}', [BarangController::class, 'edit_dimensi'])->name('barang.dimensi.edit');
+Route::post('/admin/barang/dimensi/edit/{id}', [BarangController::class, 'update_dimensi'])->name('barang.dimensi.update');
+Route::post('/delete_dimensi_barang', [BarangController::class, 'destroy_dimensi'])->name('barang.dimensi.delete');
 
 Route::get('/admin/barang/kategori/add', [BarangController::class, 'create_kategori'])->name('barang.kategori.add');
 Route::post('/admin/barang/kategori/add', [BarangController::class, 'store_kategori'])->name('barang.kategori.add_form');
+Route::get('/admin/barang/kategori/edit/{id}', [BarangController::class, 'edit_kategori'])->name('barang.kategori.edit');
+Route::post('/admin/barang/kategori/edit/{id}', [BarangController::class, 'update_kategori'])->name('barang.kategori.update');
+Route::post('/delete_kategori_barang', [BarangController::class, 'destroy_kategori'])->name('barang.kategori.delete');
 
 Route::post('/admin/barang/genertae_qr/{data}', [BarangController::class, 'create_qr'])->name('barang.generate_qr');
 
 Route::get('/admin/barang/list_barang/{id}', [BarangTransaksiController::class, 'list_barang'])->name('barang.list');
 Route::post('/data_list_barang/{id}', [BarangTransaksiController::class, 'get_data_list'])->name('barang.list.get_data');
+Route::post('/data_list_barang_trash/{id}', [BarangTransaksiController::class, 'get_data_list_trash'])->name('barang.list.get_data_trash');
+Route::post('/delete_list_barang', [BarangTransaksiController::class, 'destroy'])->name('barang.list.delete');
+Route::post('/restore_list_barang_one', [BarangTransaksiController::class, 'restore_one'])->name('barang.list.restore_one');
+Route::post('/restore_list_barang_all/{id}', [BarangTransaksiController::class, 'restore_all'])->name('barang.list.restore_all');
 
-Route::get('/admin/barang/in/', [BarangTransaksiController::class, 'in_barang'])->name('barang.list.in');
+Route::get('/admin/barang/in', [BarangTransaksiController::class, 'in_barang'])->name('barang.list.in');
 Route::post('/in_barang/{data}', [BarangTransaksiController::class, 'in_barang_save'])->name('barang.list.in_save');
 
-Route::get('/admin/barang/out/', [BarangTransaksiController::class, 'out_barang'])->name('barang.list.out');
+Route::get('/admin/barang/out', [BarangTransaksiController::class, 'out_barang'])->name('barang.list.out');
 Route::post('/out_barang/{data}', [BarangTransaksiController::class, 'out_barang_save'])->name('barang.list.out_save');
 
+Route::post('/data_list_barang_in', [BarangTransaksiController::class, 'get_list_in_barang'])->name('barang.list.out_save');
+Route::post('/data_list_barang_out', [BarangTransaksiController::class, 'get_list_out_barang'])->name('barang.list.out_save');
 
 
 // Set Penempatan

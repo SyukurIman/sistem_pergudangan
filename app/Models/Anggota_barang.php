@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Anggota_barang extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'anggota_barangs';
 
@@ -23,11 +24,11 @@ class Anggota_barang extends Model
 
     public function barang_masuk()
     {
-        return $this->belongsTo(Barang_masuk::class, 'kode_barang', 'kode_barang');
+        return $this->belongsTo(Barang_masuk::class, 'kode_barang', 'kode_barang')->withTrashed();
     }
 
     public function barang_keluar()
     {
-        return $this->belongsTo(Barang_keluar::class, 'kode_barang', 'kode_barang');
+        return $this->belongsTo(Barang_keluar::class, 'kode_barang', 'kode_barang')->withTrashed();
     }
 }

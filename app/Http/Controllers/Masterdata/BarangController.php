@@ -141,10 +141,24 @@ class BarangController extends Controller
         return view('masterdata.barang.index', $this->data);
     }
 
+    public function edit_dimensi($id)
+    {
+        $this->data['type'] = "edit_dimensi_barang";
+        $this->data['data_dimensi'] = Dimensi_barang::find($id);
+        return view('masterdata.barang.index', $this->data);
+    }
+
+    public function edit_kategori($id)
+    {
+        $this->data['type'] = "edit_kategori";
+        $this->data['data_dimensi'] = Kategori::find($id);
+        return view('masterdata.barang.index', $this->data);
+    }
+
     public function update(Request $request, $id)
     {
         $barang = Barang::find($id);
-        $barang->nama_barang = $request->input('nama_barang');
+        $barang->nama_dimensi = $request->input('nama_dimensi');
         $barang->id_dimensi = $request->input('id_dimensi');
         $barang->id_kategori = $request->input('id_kategori');
         $barang->berat_barang = $request->input('berat_barang');
@@ -157,11 +171,67 @@ class BarangController extends Controller
         }
     }
 
+    public function update_dimensi(Request $request, $id)
+    {
+        $dimensi_barang = Dimensi_barang::find($id);
+        $dimensi_barang->nama_barang = $request->input('nama_barang');
+        $dimensi_barang->panjang = $request->input('panjang');
+        $dimensi_barang->lebar = $request->input('lebar');
+        $dimensi_barang->tinggi = $request->input('tinggi');
+        $dimensi_barang->total_dimensi = $request->input('total_dimensi');
+        $dimensi_barang->update();
+        
+        if ($dimensi_barang) {
+            return redirect()->back()->with('msg', 'Update Berhasil');
+        } else {
+            return redirect()->back()->with('msg', 'Update Gagal');
+        }
+    }
+
+    public function update_kategori(Request $request, $id)
+    {
+        $kategori_barang = Kategori::find($id);
+        $kategori_barang->nama_kategori = $request->input('nama_kategori');
+        $kategori_barang->update();
+        
+        if ($kategori_barang) {
+            return redirect()->back()->with('msg', 'Update Berhasil');
+        } else {
+            return redirect()->back()->with('msg', 'Update Gagal');
+        }
+    }
+
     public function destroy(Request $request)
     {
         DB::beginTransaction();
         try{
             Barang::where('id', $request->id)->delete();
+            DB::commit();
+            return response()->json(['title'=>'Success!','icon'=>'success','text'=>'Data Berhasil Dihapus!', 'ButtonColor'=>'#66BB6A', 'type'=>'success']); 
+        }catch(\Exception $e){
+            DB::rollback();
+            return response()->json(['title'=>'Error','icon'=>'error','text'=>'Terjadi Error Saat Menghapus Data !!', 'ButtonColor'=>'#EF5350', 'type'=>'error']); 
+        } 
+    }
+
+    public function destroy_dimensi(Request $request)
+    {
+        DB::beginTransaction();
+        try{
+            Dimensi_barang::where('id', $request->id)->delete();
+            DB::commit();
+            return response()->json(['title'=>'Success!','icon'=>'success','text'=>'Data Berhasil Dihapus!', 'ButtonColor'=>'#66BB6A', 'type'=>'success']); 
+        }catch(\Exception $e){
+            DB::rollback();
+            return response()->json(['title'=>'Error','icon'=>'error','text'=>'Terjadi Error Saat Menghapus Data !!', 'ButtonColor'=>'#EF5350', 'type'=>'error']); 
+        } 
+    }
+
+    public function destroy_kegiatan(Request $request)
+    {
+        DB::beginTransaction();
+        try{
+            Kategori::where('id', $request->id)->delete();
             DB::commit();
             return response()->json(['title'=>'Success!','icon'=>'success','text'=>'Data Berhasil Dihapus!', 'ButtonColor'=>'#66BB6A', 'type'=>'success']); 
         }catch(\Exception $e){
