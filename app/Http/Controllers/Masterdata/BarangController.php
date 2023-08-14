@@ -25,6 +25,18 @@ class BarangController extends Controller
         return view('masterdata.barang.index', $this->data);
     }
 
+    public function index_dimensi_barang() 
+    {
+        $this->data['type'] = "index_dimensi_barang";
+        return view('masterdata.barang.index', $this->data);
+    }
+
+    public function index_kategori_barang() 
+    {
+        $this->data['type'] = "index_kategori_barang";
+        return view('masterdata.barang.index', $this->data);
+    }
+
     public function get_data()
     {
         $data_barang = Barang::all();
@@ -43,7 +55,40 @@ class BarangController extends Controller
                 $btn .= '</div>';    
                 $btn .= '</div>';
                 return $btn;
-                // /admin/barang/list_barang/
+            })->make(true);
+    }
+
+    public function get_data_dimensi()
+    {
+        $data_dimensi = Dimensi_barang::all();
+        return DataTables::of($data_dimensi)
+            ->addIndexColumn()
+            ->addColumn('action', function($row){
+                $btn = '';
+                $btn .= '<div class="text-center">';
+                $btn .= '<div class="btn-group btn-group-solid mx-5">';
+                $btn .= '<a class="btn btn-warning mx-1" href="/admin/barang/dimensi/edit/'.$row->id.'"><i class="icon-edit"></i></a> ';
+                $btn .= '<button class="btn btn-danger btn-raised btn-xs" id="btn-hapus" title="Hapus"><i class="icon-trash"></i></button>';
+                $btn .= '</div>';    
+                $btn .= '</div>';
+                return $btn;
+            })->make(true);
+    }
+
+    public function get_data_kategori()
+    {
+        $data_kategori = Kategori::all();
+        return DataTables::of($data_kategori)
+            ->addIndexColumn()
+            ->addColumn('action', function($row){
+                $btn = '';
+                $btn .= '<div class="text-center">';
+                $btn .= '<div class="btn-group btn-group-solid mx-5">';
+                $btn .= '<a class="btn btn-warning mx-1" href="/admin/barang/kategori/edit/'.$row->id.'"><i class="icon-edit"></i></a> ';
+                $btn .= '<button class="btn btn-danger btn-raised btn-xs" id="btn-hapus" title="Hapus"><i class="icon-trash"></i></button>';
+                $btn .= '</div>';    
+                $btn .= '</div>';
+                return $btn;
             })->make(true);
     }
 
@@ -151,7 +196,7 @@ class BarangController extends Controller
     public function edit_kategori($id)
     {
         $this->data['type'] = "edit_kategori";
-        $this->data['data_dimensi'] = Kategori::find($id);
+        $this->data['data_kategori'] = Kategori::find($id);
         return view('masterdata.barang.index', $this->data);
     }
 
@@ -174,7 +219,7 @@ class BarangController extends Controller
     public function update_dimensi(Request $request, $id)
     {
         $dimensi_barang = Dimensi_barang::find($id);
-        $dimensi_barang->nama_barang = $request->input('nama_barang');
+        $dimensi_barang->nama_dimensi = $request->input('nama_dimensi');
         $dimensi_barang->panjang = $request->input('panjang');
         $dimensi_barang->lebar = $request->input('lebar');
         $dimensi_barang->tinggi = $request->input('tinggi');

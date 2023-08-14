@@ -75,6 +75,150 @@
             hideKolom(t);
             cetak(t);
         };
+
+        var table_dimensi = function(){
+            swal.fire({
+                html: '<h5>Loading...</h5>',
+                showConfirmButton: false
+            });
+            var t = $('#table').DataTable({
+                processing: true,
+                pageLength: 10,
+                serverSide: true,
+                searching: true,
+                bLengthChange: true,
+                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "Semua"] ],
+                destroy : true,
+                dom: 'Blfrtip',
+                buttons: [
+                    {
+                        extend: 'excel',
+                        title: '{{$title}} - ' + time,
+                        text: '<i class="fa fa-file-excel-o"></i> Cetak',
+                        titleAttr: 'Cetak',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                page: 'current'
+                            }
+                        }
+                    },
+                ],
+                'ajax': {
+                    "url": "/data_dimensi_barang",
+                    "method": "POST",
+                    "complete": function () {
+                        $('.buttons-excel').hide();
+                        @if(session()->get('msg') )
+                            msg();
+                        @else
+                            swal.close();
+                        @endif
+                    }
+                },
+                'columns': [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', class: 'text-center', orderable: false, searchable: false },
+                    { data: 'action', name: 'action', class: 'text-center', orderable: false, searchable: false },
+                    { data: 'nama_dimensi', name: 'nama_dimensi', class: 'text-left' },
+                    { data: 'panjang', name: 'panjang', class: 'text-left' },
+                    { data: 'lebar', name: 'lebar', class: 'text-left' },
+                    { data: 'tinggi', name: 'tinggi', class: 'text-left' },
+                    { data: 'total_dimensi', name: 'total_dimensi', class: 'text-left' },
+                ],
+                "order": [],
+                "columnDefs": [
+                    { "orderable": false, "targets": [0] }
+                ],
+                "language": {
+                    "lengthMenu": "Menampilkan _MENU_ data",
+                    "search": "Cari:",
+                    "zeroRecords": "Data tidak ditemukan",
+                    "paginate": {
+                        "first":      "Pertama",
+                        "last":       "Terakhir",
+                        "next":       "Selanjutnya",
+                        "previous":   "Sebelumnya"
+                    },
+                    "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
+                    "infoEmpty": "Data kosong",
+                    "infoFiltered": "(Difilter dari _MAX_ total data)"
+                }
+            });
+            filterKolom(t);
+            hideKolom(t);
+            cetak(t);
+        };
+
+
+        var table_kategori = function(){
+            swal.fire({
+                html: '<h5>Loading...</h5>',
+                showConfirmButton: false
+            });
+            var t = $('#table').DataTable({
+                processing: true,
+                pageLength: 10,
+                serverSide: true,
+                searching: true,
+                bLengthChange: true,
+                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "Semua"] ],
+                destroy : true,
+                dom: 'Blfrtip',
+                buttons: [
+                    {
+                        extend: 'excel',
+                        title: '{{$title}} - ' + time,
+                        text: '<i class="fa fa-file-excel-o"></i> Cetak',
+                        titleAttr: 'Cetak',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                page: 'current'
+                            }
+                        }
+                    },
+                ],
+                'ajax': {
+                    "url": "/data_kategori_barang",
+                    "method": "POST",
+                    "complete": function () {
+                        $('.buttons-excel').hide();
+                        @if(session()->get('msg') )
+                            msg();
+                        @else
+                            swal.close();
+                        @endif
+                    }
+                },
+                'columns': [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', class: 'text-center', orderable: false, searchable: false },
+                    { data: 'action', name: 'action', class: 'text-center', orderable: false, searchable: false },
+                    { data: 'nama_kategori', name: 'nama_kategori', class: 'text-left' },
+                    { data: 'created_at', name: 'created_at', class: 'text-left' },
+                ],
+                "order": [],
+                "columnDefs": [
+                    { "orderable": false, "targets": [0] }
+                ],
+                "language": {
+                    "lengthMenu": "Menampilkan _MENU_ data",
+                    "search": "Cari:",
+                    "zeroRecords": "Data tidak ditemukan",
+                    "paginate": {
+                        "first":      "Pertama",
+                        "last":       "Terakhir",
+                        "next":       "Selanjutnya",
+                        "previous":   "Sebelumnya"
+                    },
+                    "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
+                    "infoEmpty": "Data kosong",
+                    "infoFiltered": "(Difilter dari _MAX_ total data)"
+                }
+            });
+            filterKolom(t);
+            hideKolom(t);
+            cetak(t);
+        };
         
         var filterKolom = function(t){
             $('.toggle-vis').on('change', function (e) {
@@ -134,9 +278,7 @@
                 
             });
         }
-
         
-
         var hapus = function(){
             $('#table').on('click', '#btn-hapus', function () {
                 var baris = $(this).parents('tr')[0];
@@ -159,7 +301,7 @@
                         fd.append('id', data.id);
 
                         $.ajax({
-                            url : "/delete_barang",
+                            url : "{{ $type == 'index' ? '/delete_barang' : ( $type == 'index_dimensi_barang' ? '/delete_dimensi_barang' : '/delete_kategori_barang') }}",
                             type : "POST",
                             data : fd,
                             dataType: "json",
@@ -214,6 +356,10 @@
                 @if($type == "index")
                     table();
                     muatUlang();
+                @elseif($type == 'index_dimensi_barang')
+                    table_dimensi();
+                @elseif($type == "index_kategori_barang")
+                    table_kategori();
                 @endif
                 hapus();
                 msg();

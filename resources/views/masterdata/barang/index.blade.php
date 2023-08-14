@@ -8,7 +8,7 @@
         @include('masterdata.barang.table')
     @elseif ($type == "index_dimensi_barang")
         @include('masterdata.barang.table_dimensi')
-    @elseif ($type == "index_kategori")
+    @elseif ($type == "index_kategori_barang")
         @include('masterdata.barang.table_kategori')
     @elseif ($type == "add_dimensi_barang" || $type == "edit_dimensi_barang")
         @include('masterdata.barang.form_dimensi')
