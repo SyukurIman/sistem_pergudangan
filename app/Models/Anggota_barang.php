@@ -19,7 +19,7 @@ class Anggota_barang extends Model
 
     public function barang()
     {
-        return $this->belongsTo(Barang::class, 'id_barang', 'id');
+        return $this->belongsTo('App\Models\Barang', 'id_barang', 'id');
     }
 
     public function barang_masuk()
