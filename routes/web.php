@@ -5,7 +5,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Masterdata\BarangController;
 use App\Http\Controllers\Masterdata\PegawaiController;
 use App\Http\Controllers\Masterdata\UserController;
+use App\Http\Controllers\Masterdata\RakController;
 use App\Http\Controllers\Transaksi\BarangTransaksiController;
+use App\Http\Controllers\Transaksi\PenempatanController;
+use App\Http\Controllers\Transaksi\PemindahanController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
@@ -64,5 +67,32 @@ Route::get('/admin/barang/out/', [BarangTransaksiController::class, 'out_barang'
 Route::post('/out_barang/{data}', [BarangTransaksiController::class, 'out_barang_save'])->name('barang.list.out_save');
 
 
+Route::middleware(['auth:0'])->group(function () {
+  //rak
+  Route::get('/rak', [RakController::class, 'rak'])->name('masterdata.rak');
+  Route::get('/rak/create', [RakController::class, 'create'])->name('masterdata.rak.create');
+  Route::post('/rak/table', [RakController::class, 'table'])->name('masterdata.rak.table');
+  Route::post('/rak/table_qrcode', [RakController::class, 'data_rak'])->name('masterdata.rak.table_qrcode');
+  Route::get('/rak/lihat/{id}', [RakController::class, 'lihat'])->name('masterdata.rak.lihat');
+  Route::get('/rak/update/{id}', [RakController::class, 'update'])->name('masterdata.rak.update');
+  Route::post('/rak/createform', [RakController::class, 'createform'])->name('masterdata.rak.createform');
+  Route::post('/rak/createdimensi', [RakController::class, 'createdimensi'])->name('masterdata.rak.createdimensi');
+  Route::post('/rak/updateform', [RakController::class, 'updateform'])->name('masterdata.rak.updateform');
+  Route::post('/rak/deleteform', [RakController::class, 'deleteform'])->name('masterdata.rak.deleteform');
 
+  //penempatan 
+  Route::get('/penempatan', [PenempatanController::class, 'penempatan'])->name('masterdata.penempatan');
+  Route::get('/penempatan/create', [PenempatanController::class, 'create'])->name('masterdata.penempatan.create');
+  Route::post('/penempatan/table', [PenempatanController::class, 'table'])->name('masterdata.penempatan.table');
+  Route::get('/penempatan/lihat/{id}', [PenempatanController::class, 'lihat'])->name('masterdata.penempatan.lihat');
+  Route::post('/penempatan/createform', [PenempatanController::class, 'createform'])->name('masterdata.penempatan.createform');
+  Route::post('/penempatan/deleteform', [PenempatanController::class, 'deleteform'])->name('masterdata.penempatan.deleteform');
+
+  Route::get('/pemindahan', [PemindahanController::class, 'pemindahan'])->name('masterdata.pemindahan');
+  Route::get('/pemindahan/create', [PemindahanController::class, 'create'])->name('masterdata.pemindahan.create');
+  Route::post('/pemindahan/table', [PemindahanController::class, 'table'])->name('masterdata.pemindahan.table');
+  Route::get('/pemindahan/lihat/{id}', [PemindahanController::class, 'lihat'])->name('masterdata.pemindahan.lihat');
+  Route::post('/pemindahan/createform', [PemindahanController::class, 'createform'])->name('masterdata.pemindahan.createform');
+  Route::post('/pemindahan/deleteform', [PemindahanController::class, 'deleteform'])->name('masterdata.pemindahan.deleteform');
+});
 // Set Penempatan
