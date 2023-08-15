@@ -16,7 +16,7 @@ class CreatePemindahanBarangsTable extends Migration
         Schema::create('pemindahan_barangs', function (Blueprint $table) {
             $table->id();
             $table->timestamp('tanggal_pemindahan');
-            $table->integer('kode_barang');
+            $table->text('kode_barang');
             $table->integer('id_rak_asal');
             $table->integer('id_rak_tujuan');
             $table->timestamps();
