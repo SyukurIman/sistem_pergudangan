@@ -18,7 +18,7 @@ class CreateDimensiRakTable extends Migration
             $table->float('panjang');
             $table->float('lebar');
             $table->float('tinggi');
-            $table->float('dimensi');
+            $table->float('total_dimensi');
             $table->timestamps();
         });
     }

@@ -19,7 +19,7 @@ class CreateRakTable extends Migration
             $table->string('kode_rak', (50));
             $table->string('nama_rak', (50));
             $table->string('tipe_rak', (50));
-            $table->integer('id_dimensi');
+            $table->integer('id_dimensi_rak');
             $table->float('daya_tampung');
             $table->timestamps();
         });

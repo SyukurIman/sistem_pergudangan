@@ -45,12 +45,13 @@ class PenempatanController extends Controller
 
     function table(){
         $query = Penempatan_barang::with([
-                    'rak','anggotabarang'
+                    'rak'
                     ])
                 ->orderBy('penempatan_barangs.id','desc');
         $query = $query->get();
-        return DataTables::of($query)
+        return DataTables::of($query->load('anggotabarang', 'anggotabarang.barang'))
             ->addIndexColumn()
+            ->addColumn('nama_barang', function($row){return $row->anggotabarang->barang->nama_barang;})
             ->addColumn('action', function($row){
                 $btn = '';
                 $btn .= '<div class="text-center">';

@@ -7,6 +7,7 @@ use App\Models\Anggota_barang;
 use App\Models\Barang;
 use App\Models\Barang_keluar;
 use App\Models\Barang_masuk;
+use App\Models\Masterdata\Penempatan_barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -206,6 +207,8 @@ class BarangTransaksiController extends Controller
         $check_Anggota = Anggota_barang::where('kode_barang', $data)->first();
         $check = Barang_keluar::where('kode_barang', $data)->first();
         if (!$check && $check_Anggota) {
+            Penempatan_barang::where('kode_barang', $data)->delete();
+
             $date_data = date("Y-m-d  H:i:s");
             $barang_keluar = Barang_keluar::create([
                 'kode_barang' => $data,

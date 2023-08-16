@@ -4,10 +4,11 @@ namespace App\Models\Masterdata;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Penempatan_barang extends Model
 {
+    use HasFactory, SoftDeletes;
     protected $table = 'penempatan_barangs';
 
     protected $fillable = [

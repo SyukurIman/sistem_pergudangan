@@ -47,12 +47,13 @@ class PemindahanController extends Controller
 
     function table(){
         $query = Pemindahan_barang::with([
-                    'rakAsal','rakTujuan','anggotabarang'
+                    'rakAsal','rakTujuan'
                     ])
                 ->orderBy('pemindahan_barangs.id','desc');
         $query = $query->get();
-        return DataTables::of($query)
+        return DataTables::of($query->load('anggotabarang', 'anggotabarang.barang'))
             ->addIndexColumn()
+            ->addColumn('nama_barang', function($row){return $row->anggotabarang->barang->nama_barang;})
             ->addColumn('action', function($row){
                 $btn = '';
                 $btn .= '<div class="text-center">';
