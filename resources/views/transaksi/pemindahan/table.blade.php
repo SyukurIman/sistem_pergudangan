@@ -7,7 +7,7 @@
 <div class="table-data col p-0">
 <div class="w-full">
     <div class="w-full sm:flex">
-        <h3 class="text-lg sm:text-xl">Data Penempatan</h3>
+        <h3 class="text-lg sm:text-xl">Data Pemindahan</h3>
         <div class="gap-4 justify-center col flex sm:justify-end">
             <button type="button" class="btn-data-sec" id="btn-muat-ulang" style="margin: 1em 0 0 0;">
                 <i class="fa fa-refresh"></i>
@@ -36,7 +36,6 @@
         <thead>
             <tr class="tr-table">
                 <th class="th-table" style="font-size: 12px;">No</th>
-                <th class="th-table" style="font-size: 12px;">Aksi</th>
                 <th class="th-table" style="font-size: 12px;">nama barang</th>
                 <th class="th-table" style="font-size: 12px;">kode barang</th>
                 <th class="th-table" style="font-size: 12px;">Rak Asal</th>

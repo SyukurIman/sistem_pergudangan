@@ -8,6 +8,7 @@
             </a>
         </div>
          </div>
+         @if ($type=='create' || $type=='update' || $type=='lihat')
         <div class="table-data">
             <div class="todo">
                 <form id="form-data" method="post" autocompleted="off" enctype="multipart/form-data">
@@ -53,7 +54,7 @@
                                 <div class="form-group mt-3 border-bottom">
                                     <div class="row col-md-15 mt-3">
                                         <div class="col-md-6 mt1">
-                                             <label for="nama_rak[]" class="label1">nama_rak</label><span class="required">*</span>
+                                             <label for="nama_rak[]" class="label1">Nama Rak</label><span class="required">*</span>
                                              <input type="text" placeholder="Silahkan Masukkan Nomor Induk Siswa" name="nama_rak[]" class="form-control nama_rak" data-id="0" required>
                                              <p class="help-block" style="display: none;"></p>
                                          </div>
@@ -116,8 +117,8 @@
                                     <h5 >Data Rak {{$i + 1}}</h5>
                                     <div class="row col-md-15 mt-3 ">
                                         <div class="col-md-6 mt1">
-                                            <label for="nama_rak[]" class="label1">nama_rak</label><span class="required">*</span>
-                                            <input type="hidden" name="id_siswa" value="{{$rak[$i]->id_rak }}">
+                                            <label for="nama_rak[]" class="label1">Nama Rak</label><span class="required">*</span>
+                                            <input type="hidden" name="id_rak" value="{{$rak[$i]->id_rak }}">
                                             <input type="text" placeholder="Silahkan Masukkan Nomor Induk Siswa" name="nama_rak[]" value="{{$rak[$i]->nama_rak }}" class="form-control nama_rak" data-id="{{$i}}" {{($type == 'lihat' ? 'disabled' : '')}} required>
                                             <p class="help-block" style="display: none;"></p>
                                         </div>
@@ -148,7 +149,7 @@
                                                    </option>
                                                    @endforeach
                                                </select >
-                                               <button style="padding-right: 12px; padding-left: 12px; border-radius:0;" class="btn btn-primary fa fa-plus add-dimensi-btn" type="button" data-id="{{$i}}" data-toggle="modal" data-target="#dimensi_rak" ></button>
+                                               <button style="padding-right: 12px; padding-left: 12px; border-radius:0;" class="btn btn-primary fa fa-plus add-dimensi-btn" type="button" data-id="{{$i}}" data-toggle="modal" data-target="#dimensi_rak" {{($type == "lihat" ? "hidden" : "")}}></button>
                                            </div>
                                            <p class="help-block" style="display: none;"></p>
                                        </div>
@@ -158,7 +159,7 @@
                                            <p class="help-block" style="display: none;"></p>
                                        </div>
                                      </div>
-                                     {{-- <div class="row col-md-15 justify-content-md-center">
+                                     {{-- <div {{($type == "lihat" ? "hidden" : "")}}  class="row col-md-15 justify-content-md-center">
                                         <div class="col-md-12 mt-3 mb-2">
                                                  <button style="width: 100%; height: 36px;" type="button" class="btn btn-danger btn-raised btn-xs btn-hapus-detail" title="Hapus"><i class="icon-trash"></i></button>
                                          </div>
@@ -183,8 +184,52 @@
                     @endif
                 </form>
             </div>
+            @endif
+@if($type == "delete")
+    <div class="table-data">
+        <div class="todo">
+            <form id="form-data-delete" method="post" autocompleted="off" enctype="multipart/form-data">
+                {{csrf_field();}}
+                <div class="form-group">
+                    <div class="row col-md-12">
+                        <div class="col-md-12">
+                            <button type="button" id="tombol-scan-rak" class="btn btn-info"  data-toggle="modal"data-target="#scan_delete"><b>+</b>Scan rak</button>
+                        </div>
+                    </div>
+                    <div class="row col-md-12">
+                        <div class="col-md-12">
+                          <div class="table-responsive mt-2">
+                            <table id="table_scan" class="table stripe" style="width: 100%;">
+                                <thead>
+                                    <tr class="tr-table ">
+                                        <th class="th-table" style="font-size: 12px;">no</th>
+                                        <th class="th-table" style="font-size: 12px;">nama rak</th>
+                                        <th class="th-table" style="font-size: 12px;">Kode rak</th>
+                                        <th class="th-table" style="font-size: 12px;">kode sektor</th>
+                                        <th class="th-table" style="font-size: 12px;">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-left">
+                                    <tr>
+                                        <td colspan="99" class="text-center">Scan Rak</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row col-md-12">
+                        <div class="col-md-12">
+                            <button type="button" id="delete" class="btn btn-primary btn-data">delete</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-
+@endif
 
 <div class="modal fade bd-example-modal-lg" id="dimensi_rak" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -231,4 +276,23 @@
             </div>
         </div>
     </div>
-    
+@if($type == "delete")
+<div class="modal fade" id="scan_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Scan QR CODE</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <video id="qr-reader-rak" style="width: 100%"></video>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+    </div>
+</div>
+@endif

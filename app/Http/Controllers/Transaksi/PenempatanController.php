@@ -47,22 +47,12 @@ class PenempatanController extends Controller
         $query = Penempatan_barang::with([
                     'rak'
                     ])
+                ->whereNull('penempatan_barangs.deleted_at')
                 ->orderBy('penempatan_barangs.id','desc');
         $query = $query->get();
         return DataTables::of($query->load('anggotabarang', 'anggotabarang.barang'))
             ->addIndexColumn()
             ->addColumn('nama_barang', function($row){return $row->anggotabarang->barang->nama_barang;})
-            ->addColumn('action', function($row){
-                $btn = '';
-                $btn .= '<div class="text-center">';
-                $btn .= '<div class="btn-group btn-group-solid mx-5">';
-                $btn .= '<a href="'.'/penempatan/lihat/'.$row->id.'" class="btn btn-primary btn-raised btn-xs" id="btn-lihat" title="Lihat"><i class="icon-search-new"></i></a> &nbsp;';
-                $btn .= '<a href="'.'/penempatan/update/'.$row->id.'" class="btn btn-warning btn-raised btn-xs" id="btn-ubah" title="Ubah"><i class="icon-edit"></i></a> &nbsp;';
-                $btn .= '<button class="btn btn-danger btn-raised btn-xs" id="btn-hapus" title="Hapus"><i class="icon-trash"></i></button>';
-                $btn .= '</div>';    
-                $btn .= '</div>';
-                return $btn;
-            })
             ->make(true);
     }
 

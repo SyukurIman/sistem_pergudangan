@@ -1,8 +1,12 @@
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js" rel="nofollow"></script>
+
 <script>
     var data = function () {
         let valid = true, real='', message = '', title = '', type = '';
         var dt = new Date();
         var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+        let scannedContents = [];
 
         var table = function(){
             swal.fire({
@@ -43,12 +47,14 @@
                 'columns': [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', class: 'text-center', orderable: false, searchable: false },
                     { data: 'action', name: 'action', class: 'text-center', orderable: false, searchable: false },
+                    { data: 'checkbox', name: 'checkbox', class: 'text-center', orderable: false, searchable: false },
                     { data: 'nama_rak', name: 'nama_rak', class: 'text-left' },
                     { data: 'kode_rak', name: 'kode_rak', class: 'text-left' },
                     { data: 'sektorrak.kode_sektor', name: 'sektorrak.kode_sektor', class: 'text-left' },
                     { data: 'tipe_rak', name: 'tipe_rak', class: 'text-left' },
-                    { data: 'dimensi', name: 'dimensi', class: 'text-left' },
+                    { data: 'dimensirak.total_dimensi', name: 'dimensirak.total_dimensi', class: 'text-left' },
                     { data: 'daya_tampung', name: 'daya_tampung', class: 'text-left' },
+                    // { data: 'kapasitas', name: 'kapasitas', class: 'text-center', orderable: false, searchable: false },
                          
                 ],
                 "order": [],
@@ -73,40 +79,39 @@
             filterKolom(t);
             hideKolom(t);
             cetak(t);
+           
         };
 
         var tableRakQrCode = function(){
+            $(".add-dimensi-btn").on('click', function(){
+            let checkbox_terpilih = $("#table tbody .cb-child:checked");
+            let semua_id =[];
+            $.each(checkbox_terpilih,function(index,elm){
+                semua_id.push(elm.value);
+            })
+            console.log(semua_id);
             swal.fire({
                 html: '<h5>Loading...</h5>',
                 showConfirmButton: false
             });
             var t = $('#table_qr_rak').DataTable({
                 processing: true,
-                pageLength: 10,
                 serverSide: true,
                 searching: true,
-                bLengthChange: true,
-                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "Semua"] ],
+                paging: false,
+                bLengthChange: false,
                 destroy : true,
-                dom: 'Blfrtip',
-                select: {
-                    style: 'multi', // Mengaktifkan seleksi multiple
-                    selector: 'td:first-child' // Hanya kolom pertama yang dapat dipilih (tempat checkbox)
-                },
+                dom: 'lfrtip',
                 
                 buttons: [
                     {
                         extend: 'pdf',
-                        text: 'Cetak',
-                        exportOptions: {
-                        columns: ':visible',
-                        selected: true // Hanya mencetak baris yang dipilih
-                        }
                     },
                 ],
                 'ajax': {
                     "url": "/rak/table_qrcode",
                     "method": "POST",
+                     data : {ids:semua_id},
                     "complete": function () {
                         $('.buttons-excel').hide();
                         swal.close();
@@ -114,7 +119,6 @@
                 },
                 'columns': [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', class: 'text-center', orderable: false, searchable: false },
-                    // { data: 'action', name: 'action', class: 'text-center', orderable: false, searchable: false },
                     { data: 'nama_rak', name: 'nama_rak', class: 'text-left' },
                     { data: 'kode_rak', name: 'kode_rak', class: 'text-left' },
                     { data: 'sektorrak.kode_sektor', name: 'sektorrak.kode_sektor', class: 'text-left' },
@@ -125,25 +129,28 @@
                     { "orderable": false, "targets": [0] }
                 ],
                 "language": {
-                    "lengthMenu": "Menampilkan _MENU_ data",
-                    "search": "Cari:",
                     "zeroRecords": "Data tidak ditemukan",
-                    "paginate": {
-                        "first":      "Pertama",
-                        "last":       "Terakhir",
-                        "next":       "Selanjutnya",
-                        "previous":   "Sebelumnya"
-                    },
-                    "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
                     "infoEmpty": "Data kosong",
-                    "infoFiltered": "(Difilter dari _MAX_ total data)"
                 }
             });
-            filterKolom(t);
-            hideKolom(t);
             cetak(t);
+            })
         };
 
+        $("#checkAll").on('click', function(){
+            var isChecked = $("#checkAll").prop('checked');
+            console.log(isChecked)
+            $(".cb-child").prop('checked', isChecked);
+            $(".add-dimensi-btn").prop('disabled', !isChecked);
+        })
+        $("#table tbody").on('click','.cb-child', function(){
+            if($(this).prop('checked')!=true){
+                $("#checkAll").prop('checked',false);
+            }
+            let semua_checkbox=$("#table tbody .cb-child:checked");
+            let button_scan_rak=(semua_checkbox.length>0)
+            $(".add-dimensi-btn").prop('disabled', !button_scan_rak);
+        })
 
         var filterKolom = function(t){
             $('.toggle-vis').on('change', function (e) {
@@ -466,13 +473,136 @@
                 });
             });
         }
+        @if($type == "delete")
+        var scanQrCode = function(){
+            $("#tombol-scan-rak").on('click', function(){
+                var audioElement = document.createElement('audio');
+                audioElement.setAttribute('src', 'https://www.soundjay.com/buttons/button-3.wav');
 
+                let scanner = new Instascan.Scanner({ video: document.getElementById('qr-reader-rak') });
+                Instascan.Camera.getCameras().then(function (cameras) {
+                    if (cameras.length > 0) {
+                        scanner.start(cameras[0]);
+                    } else {
+                        console.error('No cameras found.');
+                    }
+                }).catch(function (e) {
+                    console.error(e);
+                });
+                var scannerListenerAdded = false;
+                $('#scan_delete').on('shown.bs.modal', function () {
+                    if (!scannerListenerAdded) {
+                    scanner.addListener('scan', function (content) {
+                            var highestDataId = 0;
+                            $('.id_rak').each(function() {
+                                var dataId = $(this).data('id');
+                                if (dataId > highestDataId) {
+                                    highestDataId = dataId;
+                                }
+                            });
+                            var no = highestDataId > 0 ? highestDataId + 1 : 1;
+                            var nomer = $('.id_rak').length;
+                            // Tambahkan 1 untuk mendapatkan nomor berikutnya
+                            if(no == 1){
+                                $('#table_scan tbody').html("");
+                            }
+                            console.log(scannedContents);
+                            if (!scannedContents.includes(content)) {
+                                var contentFound = false;
+                                var contentRakNull =[];
+                                var contentRakIsi=[];
+                                @foreach ($cek_isi as $c)
+                                    contentRakIsi.push('{{$n->rak->kode_rak}}');
+                                @endforeach
+                                @foreach ($cek_isi_null as $n)
+                                    contentRakNull.push('{{$n->rak->kode_rak}}');
+                                @endforeach
+                                   if(contentRakIsi.includes(content) || !contentRakNull.includes(content)){
+                                        contentFound = true;
+                                   }
+                                var html = "";
+                                if (contentFound) {
+                                    scannedContents.push(content);
+                                    @foreach ($data_rak as $i)
+                                        if ('{{$i->kode_rak}}' === content) {
+                                            html += `<tr>
+                                                        <td>${nomer + 1 }</td>
+                                                        <td hidden>
+                                                            <input type="text" class="id_rak" name="id_rak[]" value="{{$i->id_rak}}" data-id="${no}">
+                                                        </td>
+                                                        <td>{{$i->nama_rak}}</td>
+                                                        <td><input type="hidden" class="kode_rak${no}" value="{{$i->kode_rak}}" data-id="${no}">{{$i->kode_rak}}</td>
+                                                        <td>{{$i->sektorrak->kode_sektor}}</td>
+                                                        <td>
+                                                            <button style="width: 100%; height: 36px;" type="button" class="btn btn-danger btn-raised btn-xs btn-hapus-detail" data-id="${no}" title="Hapus"><i class="icon-trash"></i></button>
+                                                        </td>
+                                                    </tr>`;
+                                        $('#table_scan tbody').append(html);
+                                        deleteRowRak();
+                                        }
+                                    @endforeach
+                                }else{
+                                    Swal.fire({
+                                    title: 'rak tidak kosong',
+                                    showClass: {
+                                        popup: 'animate__animated animate__fadeInDown'
+                                    },
+                                    hideClass: {
+                                        popup: 'animate__animated animate__fadeOutUp'
+                                    }
+                                })
+                                }
+
+                                audioElement.play();
+                                scannerListenerAdded = true;
+                            } else {
+                                Swal.fire({
+                                title: 'rak sudah terinput',
+                                showClass: {
+                                    popup: 'animate__animated animate__fadeInDown'
+                                },
+                                hideClass: {
+                                    popup: 'animate__animated animate__fadeOutUp'
+                                }
+                                })
+                            }
+                    });
+                }
+
+               
+            }); 
+            $('#scan_delete').on('hidden.bs.modal', function() {
+                if (scanner) {
+                    scanner.stop();
+                }
+            });
+        })
+        }
+        var deleteRowRak = function(){
+            $('.btn-hapus-detail').unbind().click(function(){
+                var id = $(this).attr('data-id');
+                var classSelector = '.kode_rak' + id; // Membangun nama kelas yang sesuai dengan data-id
+                var kode_barang = $(classSelector).val();
+                var indexToRemove = scannedContents.indexOf(kode_barang);
+                if (indexToRemove !== -1) {
+                    scannedContents.splice(indexToRemove, 1);
+                }
+                console.log(scannedContents);
+                $(this).parent().parent().remove();
+                var html = "";
+                var jmlrow = $('.id_rak').length;
+                if(jmlrow == 0){
+                    html += `<tr>
+                                <td colspan="99" class="text-center">Data Kosong</td>
+                            </tr>`;
+                    $('#table_scan tbody').html(html);
+                }
+            });
+        }
+        @endif
         var hapus = function(){
-            $('#table').on('click', '#btn-hapus', function () {
-                var baris = $(this).parents('tr')[0];
-                var table = $('#table').DataTable();
-                var data = table.row(baris).data();
-
+            $('#delete').click( function(e) {
+                e.preventDefault();
                 swal.fire({
                     title: 'Apakah Anda Yakin?',
                     text: 'Menghapus Data Ini',
@@ -484,14 +614,11 @@
                 })
                 .then((result) => {
                     if (result.value) {
-                        var fd = new FormData();
-                        fd.append('_token','{{ csrf_token() }}');
-                        fd.append('id_grub_penilaian_bulanan', data.id_grub_penilaian_bulanan);
-
+                        var formData = new FormData($('#form-data-delete')[0]);
                         $.ajax({
                             url : "/rak/deleteform",
                             type : "POST",
-                            data : fd,
+                            data : formData,
                             dataType: "json",
                             contentType: false,
                             processData: false,
@@ -516,7 +643,7 @@
                                         confirmButtonColor: result.ButtonColor,
                                         type : result.type,
                                     }).then((result) => {
-                                        $('#table').DataTable().ajax.reload();
+                                        location.href = "/rak";
                                     });
                                 }else{
                                     swal.fire({
@@ -552,6 +679,10 @@
                 @if($type == "create" || $type == "update" )
                 addRow();
                 createdimensi();
+                @endif
+                @if($type == "delete")
+                scanQrCode();
+                deleteRowRak();
                 @endif
                 // clickModal();
                 // buttonDelete();
@@ -591,7 +722,7 @@
 
         // var data_header = $('#header_data').html();
 
-        var opt = { filename: 'Cetak qr_code - '+time+'.pdf',
+        var opt = { filename: 'Cetak qr_code_rak - '+time+'.pdf',
                     margin: [10, 10, 10, 10],
                     image: { type: 'jpeg', quality: 1 },
                     html2canvas:  { dpi: 500,

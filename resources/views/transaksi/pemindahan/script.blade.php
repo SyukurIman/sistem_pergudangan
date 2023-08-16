@@ -46,7 +46,6 @@
                 },
                 'columns': [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', class: 'text-center', orderable: false, searchable: false },
-                    { data: 'action', name: 'action', class: 'text-center', orderable: false, searchable: false },
                     { data: 'nama_barang', name: 'nama_barang', class: 'text-left' },
                     { data: 'kode_barang', name: 'kode_barang', class: 'text-left' },
                     { data: 'rak_asal.kode_rak', name: 'rak_Asal.kode_rak', class: 'text-left' },

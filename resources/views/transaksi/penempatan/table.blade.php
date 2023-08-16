@@ -36,7 +36,6 @@
         <thead>
             <tr class="tr-table">
                 <th class="th-table" style="font-size: 12px;">No</th>
-                <th class="th-table" style="font-size: 12px;">Aksi</th>
                 <th class="th-table" style="font-size: 12px;">nama barang</th>
                 <th class="th-table" style="font-size: 12px;">kode barang</th>
                 <th class="th-table" style="font-size: 12px;">nama rak</th>

@@ -102,6 +102,7 @@ Route::middleware(['auth:0'])->group(function () {
   Route::get('/rak', [RakController::class, 'rak'])->name('masterdata.rak');
   Route::get('/rak/create', [RakController::class, 'create'])->name('masterdata.rak.create');
   Route::post('/rak/table', [RakController::class, 'table'])->name('masterdata.rak.table');
+  Route::get('/rak/delete', [RakController::class, 'delete'])->name('masterdata.rak.delete');
   Route::post('/rak/table_qrcode', [RakController::class, 'data_rak'])->name('masterdata.rak.table_qrcode');
   Route::get('/rak/lihat/{id}', [RakController::class, 'lihat'])->name('masterdata.rak.lihat');
   Route::get('/rak/update/{id}', [RakController::class, 'update'])->name('masterdata.rak.update');
