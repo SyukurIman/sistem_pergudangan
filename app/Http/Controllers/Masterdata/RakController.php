@@ -200,7 +200,7 @@ class RakController extends Controller
                 // $total = '<div class="text-center">';
                 // $total .= '<input type="checkbox" class="cb-child" name="checkbox" value="'.$id_barang[0].'">';
                 // $total .= '</div>';
-                return ($total_dimensi_now * 100).'%';
+                return round(($total_dimensi_now * 100), 2).'%';
             })
             ->rawColumns(['checkbox','action'])
             ->make(true);
