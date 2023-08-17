@@ -118,7 +118,7 @@
                                     <div class="row col-md-15 mt-3 ">
                                         <div class="col-md-6 mt1">
                                             <label for="nama_rak[]" class="label1">Nama Rak</label><span class="required">*</span>
-                                            <input type="hidden" name="id_rak" value="{{$rak[$i]->id_rak }}">
+                                            <input type="hidden" name="id_rak[]" value="{{$rak[$i]->id_rak }}">
                                             <input type="text" placeholder="Silahkan Masukkan Nomor Induk Siswa" name="nama_rak[]" value="{{$rak[$i]->nama_rak }}" class="form-control nama_rak" data-id="{{$i}}" {{($type == 'lihat' ? 'disabled' : '')}} required>
                                             <p class="help-block" style="display: none;"></p>
                                         </div>

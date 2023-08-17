@@ -193,16 +193,14 @@ class RakController extends Controller
                     $total_dimensi_now = 0 ;
                 }
                 
-                
-                 // Menghitung total_dimensi dengan sum()
-                
-                
-                // $total = '<div class="text-center">';
-                // $total .= '<input type="checkbox" class="cb-child" name="checkbox" value="'.$id_barang[0].'">';
-                // $total .= '</div>';
-                return round(($total_dimensi_now * 100), 2).'%';
+                $persentase_hasil = round(($total_dimensi_now * 100), 2).'%';
+                $persentase_hasil_bar = round(($total_dimensi_now * 100), 2);
+                $total = '<div class="progress">';
+                $total .= '<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="'.$persentase_hasil_bar.'" aria-valuemin="0" aria-valuemax="1000">'.$persentase_hasil.'</div>';
+                $total .= '</div>';
+                return $total;
             })
-            ->rawColumns(['checkbox','action'])
+            ->rawColumns(['checkbox','action','kapasitas'])
             ->make(true);
     }
     function createdimensi(Request $request){
@@ -297,6 +295,7 @@ class RakController extends Controller
                 );
                 $data = $request->only(
                     [
+                        'id_rak',
                         'nama_rak',
                         'kode_rak', 
                         'tipe_rak', 
@@ -305,31 +304,33 @@ class RakController extends Controller
                     ]
                 );
                 if ($data['nama_rak']) {
-                    if (count(Rak::where('id_sektor', $request->id_sektor)->get()) == 0) {
-                        foreach ($data['nama_rak'] as $key => $value) {
-                            $rak = new Rak();
-                            $rak->id_sektor=$request->id_sektor;
-                            $rak->nama_rak=$data['nama_rak'][$key];
-                            $rak->kode_rak = $data['kode_rak'][$key];
-                            $rak->tipe_rak = $data['tipe_rak'][$key];
-                            $rak->id_dimensi_rak = $data['id_dimensi'][$key];
-                            $rak->daya_tampung = $data['daya_tampung'][$key];
-                            $rak->save();
-                        }
-                    }else {
+                    $existingRaks = Rak::where('id_sektor', $request->id_sektor)->get();
+                
+                    // Ambil id_rak dari data rak yang sudah ada
+                    $existingRakIds = $existingRaks->pluck('id_rak')->toArray();
+                
+                    if (count($existingRaks) > 0) {
                         Rak::where('id_sektor', $request->id_sektor)->delete();
-                        foreach ($data['nama_rak'] as $key => $value) {
-                            $rak = new Rak();
-                            $rak->id_sektor=$request->id_sektor;
-                            $rak->nama_rak=$data['nama_rak'][$key];
-                            $rak->kode_rak = $data['kode_rak'][$key];
-                            $rak->tipe_rak = $data['tipe_rak'][$key];
-                            $rak->id_dimensi_rak = $data['id_dimensi'][$key];
-                            $rak->daya_tampung = $data['daya_tampung'][$key];
-                            $rak->save();
+                    }
+                
+                    foreach ($data['nama_rak'] as $key => $value) {
+                        $rak = new Rak();
+                
+                        // Jika id_rak ada dalam data rak yang sudah ada, gunakan id_rak tersebut
+                        if (in_array($data['id_rak'][$key], $existingRakIds)) {
+                            $rak->id_rak = $data['id_rak'][$key];
                         }
+                
+                        $rak->id_sektor = $request->id_sektor;
+                        $rak->nama_rak = $data['nama_rak'][$key];
+                        $rak->kode_rak = $data['kode_rak'][$key];
+                        $rak->tipe_rak = $data['tipe_rak'][$key];
+                        $rak->id_dimensi_rak = $data['id_dimensi'][$key];
+                        $rak->daya_tampung = $data['daya_tampung'][$key];
+                        $rak->save();
                     }
                 }
+                
 
                 DB::commit();
                 return response()->json(['title'=>'Success!','icon'=>'success','text'=>'Data Berhasil Diubah!', 'ButtonColor'=>'#66BB6A', 'type'=>'success']); 
