@@ -37,6 +37,8 @@ class PenempatanController extends Controller
         $this->data['barang_scan']= Anggota_barang::with([
                                         'barang',
                                     ])->get();
+
+        // dd($this->data['barang_scan']);
     	return view($this->data['parent'].'.'.$this->data['modul'].'.index', $this->data);
     }
     function lihat($id_sektor){
