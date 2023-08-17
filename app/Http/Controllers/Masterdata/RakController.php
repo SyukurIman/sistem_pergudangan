@@ -180,16 +180,28 @@ class RakController extends Controller
                 $total_dimensi = $row->dimensirak->total_dimensi;
                 $penempatan = Penempatan_barang::where('id_rak', $row->id_rak)->get();
                 $kode_barangs = $penempatan->pluck('kode_barang')->toArray();
-                $barang = Anggota_barang::whereIn('kode_barang', $kode_barangs)->get();
+                $barang = Anggota_barang::where('kode_barang', $kode_barangs)->get();
                 $id_barang = $barang->pluck('id_barang')->toArray();
 
-                $dimensi = Barang::whereIn('id', $id_barang)->with('dimensi_barang')->get(); // Menggunakan with() untuk eager loading
-                $persentase = $dimensi->pluck('dimensi_barang.total_dimensi')->sum(); // Menghitung total_dimensi dengan sum()
-                $total_dimensi += $persentase;
-                $total = '<div class="text-center">';
-                $total .= '<input type="checkbox" class="cb-child" name="checkbox" value="'.$id_barang.'">';
-                $total .= '</div>';
-                return $total;
+                if(count($id_barang) >= 1){
+                    $dimensi = Barang::where('id', $id_barang[0])->with('dimensi_barang')->get(); // Menggunakan with() untuk eager loading
+                    $persentase = $dimensi->pluck('dimensi_barang.total_dimensi')->sum();
+                    $dimensi_barang = intval($persentase) * count($barang);
+
+                    
+                    $total_dimensi_now = intval($dimensi_barang) / $total_dimensi;
+                } else {
+                    $total_dimensi_now = 0 ;
+                }
+                
+                
+                 // Menghitung total_dimensi dengan sum()
+                
+                
+                // $total = '<div class="text-center">';
+                // $total .= '<input type="checkbox" class="cb-child" name="checkbox" value="'.$id_barang[0].'">';
+                // $total .= '</div>';
+                return ($total_dimensi_now * 100).'%';
             })
             ->rawColumns(['checkbox','action'])
             ->make(true);

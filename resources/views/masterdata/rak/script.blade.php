@@ -54,7 +54,7 @@
                     { data: 'tipe_rak', name: 'tipe_rak', class: 'text-left' },
                     { data: 'dimensirak.total_dimensi', name: 'dimensirak.total_dimensi', class: 'text-left' },
                     { data: 'daya_tampung', name: 'daya_tampung', class: 'text-left' },
-                    // { data: 'kapasitas', name: 'kapasitas', class: 'text-center', orderable: false, searchable: false },
+                    { data: 'kapasitas', name: 'kapasitas', class: 'text-center', orderable: false, searchable: false },
                          
                 ],
                 "order": [],

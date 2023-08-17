@@ -13,6 +13,7 @@ use App\Models\Masterdata\Penempatan_barang;
 use App\Models\Masterdata\Pemindahan_barang;
 use App\Models\Masterdata\Rak;
 use App\Models\Anggota_barang;
+use App\Models\Barang;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -47,7 +48,6 @@ class PenempatanController extends Controller
         $query = Penempatan_barang::with([
                     'rak'
                     ])
-                ->whereNull('penempatan_barangs.deleted_at')
                 ->orderBy('penempatan_barangs.id','desc');
         $query = $query->get();
         return DataTables::of($query->load('anggotabarang', 'anggotabarang.barang'))
@@ -75,19 +75,19 @@ class PenempatanController extends Controller
                         ->where('kode_barang', '=', $cek_kode_barang )
                         ->first();
                         if($cek == null){
-                        $penempatan = new Penempatan_barang();
-                        $kode_barang=$data['kode_barang'][$key];
-                        $penempatan->kode_barang=$kode_barang;
-                        $id_rak = Rak::where('kode_rak', '=', $data['kode_rak'][$key])->value('id_rak');
-                        $penempatan->id_rak = $id_rak;
-                        $penempatan->save();
+                            $penempatan = new Penempatan_barang();
+                            $kode_barang=$data['kode_barang'][$key];
+                            $penempatan->kode_barang=$kode_barang;
+                            $id_rak = Rak::where('kode_rak', '=', $data['kode_rak'][$key])->value('id_rak');
+                            $penempatan->id_rak = $id_rak;
+                            $penempatan->save();
 
-                        $pemindahan = new Pemindahan_barang();
-                        $pemindahan->tanggal_pemindahan =  Carbon::now();
-                        $pemindahan->kode_barang = $data['kode_barang'][$key];
-                        $pemindahan->id_rak_asal = $id_rak;
-                        $pemindahan->id_rak_tujuan = $id_rak;
-                        $pemindahan->save();
+                            $pemindahan = new Pemindahan_barang();
+                            $pemindahan->tanggal_pemindahan =  Carbon::now();
+                            $pemindahan->kode_barang = $data['kode_barang'][$key];
+                            $pemindahan->id_rak_asal = $id_rak;
+                            $pemindahan->id_rak_tujuan = $id_rak;
+                            $pemindahan->save();
                         }else{
                             DB::rollback();
                             return response()->json(['title'=>'Error','icon'=>'error','text'=>'Barang dengan kode '.$cek_kode_barang.' sudah ada dirak', 'ButtonColor'=>'#EF5350', 'type'=>'error']); 
@@ -103,6 +103,26 @@ class PenempatanController extends Controller
         }catch(\Exception $e){
             DB::rollback();
             return response()->json(['title'=>'Error','icon'=>'error','text'=>$e->getMessage(), 'ButtonColor'=>'#EF5350', 'type'=>'error']); 
+        }
+    }
+
+    function check_kapasitas(Request $request)
+    {
+        $total_dimensi = Rak::where('id_rak', $request->id_rak)->first()->dimensirak->total_dimensi;
+        $penempatan = Penempatan_barang::where('id_rak', $request->id_rak)->get();
+        $kode_barangs = $penempatan->pluck('kode_barang')->toArray();
+        $barang = Anggota_barang::where('kode_barang', $kode_barangs)->get();
+        $id_barang = $barang->pluck('id_barang')->toArray();
+
+        if(count($id_barang) >= 1){
+            $dimensi = Barang::where('id', $id_barang[0])->with('dimensi_barang')->get(); // Menggunakan with() untuk eager loading
+            $persentase = $dimensi->pluck('dimensi_barang.total_dimensi')->sum();
+            $dimensi_barang = intval($persentase) * count($barang);
+
+            
+            $total_dimensi_now = intval($dimensi_barang) / $total_dimensi ;
+        } else {
+            $total_dimensi_now = 0 ;
         }
     }
 
