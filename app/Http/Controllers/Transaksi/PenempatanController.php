@@ -37,8 +37,7 @@ class PenempatanController extends Controller
         $this->data['barang_scan']= Anggota_barang::with([
                                         'barang',
                                     ])->get();
-
-        // dd($this->data['barang_scan']);
+        $this->data['cek_penempatan']= Penempatan_barang::with(['rak'])->whereNull('Penempatan_barangs.deleted_at')->get();
     	return view($this->data['parent'].'.'.$this->data['modul'].'.index', $this->data);
     }
     function lihat($id_sektor){
@@ -55,6 +54,13 @@ class PenempatanController extends Controller
         return DataTables::of($query->load('anggotabarang', 'anggotabarang.barang'))
             ->addIndexColumn()
             ->addColumn('nama_barang', function($row){return $row->anggotabarang->barang->nama_barang;})
+            ->addColumn('status', function($row){
+                if($row->created_at == $row->updated_at){
+                    return 'Baru';
+                }else{
+                    return 'Berpindah';
+                }
+                })
             ->make(true);
     }
 

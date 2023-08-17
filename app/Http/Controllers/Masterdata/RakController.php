@@ -163,7 +163,7 @@ class RakController extends Controller
             ->addColumn('action', function($row){
                 $btn = '';
                 $btn .= '<div class="text-center">';
-                $btn .= '<div class="btn-group btn-group-solid mx-3">';
+                $btn .= '<div class="btn-group btn-group-solid mx-2">';
                 $btn .= '<a href="'.'/rak/lihat/'.$row->id_sektor.'" class="btn btn-primary btn-raised btn-xs" id="btn-lihat" title="Lihat"><i class="icon-search-new"></i></a> &nbsp;';
                 $btn .= '<a href="'.'/rak/update/'.$row->id_sektor.'" class="btn btn-warning btn-raised btn-xs" id="btn-ubah" title="Ubah"><i class="icon-edit"></i></a> &nbsp;';
                 $btn .= '</div>';    
@@ -196,7 +196,7 @@ class RakController extends Controller
                 $persentase_hasil = round(($total_dimensi_now * 100), 2).'%';
                 $persentase_hasil_bar = round(($total_dimensi_now * 100), 2);
                 $total = '<div class="progress">';
-                $total .= '<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="'.$persentase_hasil_bar.'" aria-valuemin="0" aria-valuemax="1000">'.$persentase_hasil.'</div>';
+                $total .= '<div class="progress-bar" role="progressbar" style="width: '.$persentase_hasil_bar.'%;" aria-valuenow="'.$persentase_hasil_bar.'" aria-valuemin="0" aria-valuemax="100">'.$persentase_hasil.'</div>';
                 $total .= '</div>';
                 return $total;
             })

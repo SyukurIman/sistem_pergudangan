@@ -23,13 +23,12 @@
                     <i class="fa fa-filter"></i>
                 </button>
                 <div class="dropdown-menu">
-                    <label class="dropdown-item"><input class="toggle-vis" data-column="2" type="checkbox" checked> rak </label>
-                    <label class="dropdown-item"><input class="toggle-vis" data-column="3" type="checkbox" checked> kode rak </label>
-                    <label class="dropdown-item"><input class="toggle-vis" data-column="4" type="checkbox" checked> kode sektor </label>
-                    <label class="dropdown-item"><input class="toggle-vis" data-column="4" type="checkbox" checked> tipe </label>
-                    <label class="dropdown-item"><input class="toggle-vis" data-column="4" type="checkbox" checked> dimensi </label>
-                    <label class="dropdown-item"><input class="toggle-vis" data-column="4" type="checkbox" checked> daya tampung </label>
-                    
+                    <label class="dropdown-item"><input class="toggle-vis" data-column="3" type="checkbox" checked> rak </label>
+                    <label class="dropdown-item"><input class="toggle-vis" data-column="4" type="checkbox" checked> kode rak </label>
+                    <label class="dropdown-item"><input class="toggle-vis" data-column="5" type="checkbox" checked> kode sektor </label>
+                    <label class="dropdown-item"><input class="toggle-vis" data-column="6" type="checkbox" checked> tipe </label>
+                    <label class="dropdown-item"><input class="toggle-vis" data-column="7" type="checkbox" checked> dimensi </label>
+                    <label class="dropdown-item"><input class="toggle-vis" data-column="8" type="checkbox" checked> daya tampung </label>
                 </div>
             </div>
         </div>
