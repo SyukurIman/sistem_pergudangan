@@ -3,7 +3,7 @@
         <div class="col text-left" style="margin: 1em 0 0 -1em;">
         </div>
         <div class="col text-right" style="margin: 0 -3em 0 0;">
-            <a href="/penempatan" type="button" class="btn btn-primary btn-data-sec">
+            <a href="/pemindahan" type="button" class="btn btn-primary btn-data-sec">
                 <i class="fa fa-chevron-left"></i> <span>Kembali</span>
             </a>
         </div>

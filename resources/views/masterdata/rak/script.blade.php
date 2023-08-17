@@ -156,6 +156,7 @@
             $('.toggle-vis').on('change', function (e) {
                 e.preventDefault();
                 var column = t.column($(this).attr('data-column'));
+                console.log(column);
                 column.visible(!column.visible());
             });
         }

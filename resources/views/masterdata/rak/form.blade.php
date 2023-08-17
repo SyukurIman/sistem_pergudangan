@@ -20,7 +20,7 @@
                                 <label for="nama_sektor" class="label1">nama sektor</label><span class="required">*</span>
                                 <input type="hidden" name="id_sektor" value="{{($type == 'create' ? '' : $data->id_sektor)}}">
                                 <input type="text" name="nama_sektor" class="form-control nama_sektor" placeholder="Silahkan Masukkan nama orangtua siswa" 
-                                value="{{($type == 'create' ? '' : $data->nama_sektor)}}" required {{($type == 'lihat' ? 'disabled' : '')}}>
+                                value="{{($type == 'create' ? '' : $data->nama_sektor)}}" required {{($type == 'lihat' ? 'disabled' : '')}} required>
                                 <p class="help-block" style="display: none;"></p>
                             </div>
                             <script>
@@ -32,8 +32,8 @@
                             </script>
                             <div class="col-md-6 mt1">
                                 <label for="hubungan_orangtua" class="label1">Kode Sektor</label><span class="required">*</span>
-                                <input type="text" name="kode_sektor" class="form-control kode_sektor" placeholder="Silahkan Masukkan nama orangtua siswa" 
-                                value="{{($type == 'create' ? '' : $data->kode_sektor)}}" required {{($type == 'lihat' ? 'disabled' : '')}}>
+                                <input type="text" name="kode_sektor" class="form-control kode_sektor" 
+                                value="{{($type == 'create' ? '' : $data->kode_sektor)}}" required {{($type == 'lihat' ? 'disabled' : '')}} readonly required>
                                 <p class="help-block" style="display: none;"></p>
                             </div>
                             <script>
@@ -60,7 +60,7 @@
                                          </div>
                                          <div class="col-md-6 mt1">
                                              <label for="kode_rak[]" class="label1">kode rak</label><span class="required">*</span>
-                                             <input type="text" name="kode_rak[]" class="form-control kode_rak" data-id="0" value="R{{$kode_sektor}}-0001" placeholder="Silahkan Masukkan Nomor Induk Siswa Nasional" required>
+                                             <input type="text" name="kode_rak[]" class="form-control kode_rak" data-id="0" value="R{{$kode_sektor}}-0001" readonly required>
                                              <p class="help-block" style="display: none;"></p>
                                          </div>
                                          <div class="col-md-6 mt-2">
@@ -124,7 +124,7 @@
                                         </div>
                                         <div class="col-md-6 mt1">
                                             <label for="kode_rak[]" class="label1">kode rak</label><span class="required">*</span>
-                                            <input type="text" name="kode_rak[]" class="form-control kode_rak" data-id="{{$i}}" {{($type == 'lihat' ? 'disabled' : '')}} value="{{$rak[$i]->kode_rak }}" placeholder="Silahkan Masukkan Nomor Induk Siswa Nasional" required>
+                                            <input type="text" name="kode_rak[]" class="form-control kode_rak" data-id="{{$i}}" {{($type == 'lihat' ? 'disabled' : '')}} value="{{$rak[$i]->kode_rak }}" readonly required>
                                             <p class="help-block" style="display: none;"></p>
                                         </div>
                                         <div class="col-md-6 mt-2">

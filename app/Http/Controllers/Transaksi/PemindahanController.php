@@ -36,7 +36,7 @@ class PemindahanController extends Controller
         $this->data['data'] = null;
         $this->data['penempatan_barang']= Penempatan_barang::with([
                                         'rak','anggotabarang'
-                                    ])->get();
+                                    ])->whereNull('penempatan_barangs.deleted_at')->get();
         $this->data['barang'] = Barang::get();                   
     	return view($this->data['parent'].'.'.$this->data['modul'].'.index', $this->data);
     }

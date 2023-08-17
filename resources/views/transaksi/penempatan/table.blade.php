@@ -40,6 +40,7 @@
                 <th class="th-table" style="font-size: 12px;">kode barang</th>
                 <th class="th-table" style="font-size: 12px;">nama rak</th>
                 <th class="th-table" style="font-size: 12px;">kode rak</th>
+                <th class="th-table" style="font-size: 12px;">Status</th>
             </tr>
         </thead>
         <tbody class="text-center">

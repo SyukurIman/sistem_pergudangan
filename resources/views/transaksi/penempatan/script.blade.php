@@ -49,7 +49,8 @@
                     { data: 'nama_barang', name: 'nama_barang', class: 'text-left' },
                     { data: 'kode_barang', name: 'kode_barang', class: 'text-left' },
                     { data: 'rak.nama_rak', name: 'rak.nama_rak', class: 'text-left' },
-                    { data: 'rak.kode_rak', name: 'rak.kode_rak', class: 'text-left' }, 
+                    { data: 'rak.kode_rak', name: 'rak.kode_rak', class: 'text-left' },
+                    { data: 'status', name: 'status', class: 'text-center', orderable: false, searchable: false },
                 ],
                 "order": [],
                 "columnDefs": [
@@ -122,7 +123,6 @@
                 if (indexToRemove !== -1) {
                     scannedContents.splice(indexToRemove, 1);
                 }
-                console.log(scannedContents);
                 $(this).parent().parent().remove();
                 var html = "";
                 var jmlrow = $('.nama_barang').length;
@@ -154,18 +154,15 @@
                 $('#scan_kamera_barang').on('shown.bs.modal', function () {
                     if (!scannerListenerAdded) {
                     scanner.addListener('scan', function (content) {
-                        console.log(content);
                         const firstLetter = content.charAt(0);
                         if(firstLetter === 'R'){
                             Swal.fire({
-                                title: 'Qr Code Salah',
-                                showClass: {
-                                    popup: 'animate__animated animate__fadeInDown'
-                                },
-                                hideClass: {
-                                    popup: 'animate__animated animate__fadeOutUp'
-                                }
-                                })
+                            position: 'center',
+                            icon: 'warning',
+                            title: 'Qr Code Salah',
+                            showConfirmButton: false,
+                            timer: 1500
+                            })
                         }else{
                             var highestDataId = 0;
                             $('.nama_barang').each(function() {
@@ -179,7 +176,15 @@
                             if(no == 1){
                                 $('#table_scan tbody').html("");
                             }
-                            console.log(scannedContents);
+                                var contentFound = false;
+                                var cekBarangPenempatan=[];
+                                @foreach ($cek_penempatan as $c)
+                                    cekBarangPenempatan.push('{{$c->kode_barang}}');
+                                @endforeach
+                                   if(!cekBarangPenempatan.includes(content)){
+                                        contentFound = true;
+                                   }
+                            if(contentFound){ 
                             if (!scannedContents.includes(content)) {
                                 scannedContents.push(content); 
                                 @if(isset($barang_scan))
@@ -209,28 +214,40 @@
                                         `;
                                     $('#table_scan tbody').append(html);
                                     deleteRow();     
-                                    audioElement.play();
-                                    
+                                   
+                                        Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: 'Scan Barang Berhasil',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                        })
                                     }
                                             @endforeach
                                         @endif
+
                                     scannerListenerAdded = true;
                             } else {
                                 Swal.fire({
-                                title: 'barang sudah terinput sebelumnya',
-                                showClass: {
-                                    popup: 'animate__animated animate__fadeInDown'
-                                },
-                                hideClass: {
-                                    popup: 'animate__animated animate__fadeOutUp'
-                                }
+                                    position: 'center',
+                                    icon: 'warning',
+                                    title: 'barang sudah terinput',
+                                    showConfirmButton: false,
+                                    timer: 2000
                                 })
                             }
+                        }else{
+                            Swal.fire({
+                            position: 'center',
+                            icon: 'warning',
+                            title: 'Barang Sudah Ada Dirak',
+                            showConfirmButton: false,
+                            timer: 1500
+                            })
+                        }
                                
                         }
-                    
-                            // $('#scan_kamera_barang').modal('hide');
-                            // scanner.stop();
+                        audioElement.play();
                     });
                 }
 
@@ -263,7 +280,6 @@
                 $('#scan_kamera_rak').on('shown.bs.modal', function () {
                 if (!scannerListenerRak) {
                 scanner_rak.addListener('scan', function (contentRak) {
-                    console.log(contentRak);
                     const firstLetterR = contentRak.charAt(0);
                     if(firstLetterR === 'R'){
                         let checkbox_terpilih = $("#table_scan tbody .check-barang:checked");
@@ -275,21 +291,27 @@
                             var kodeRakElement = id_kode_rak[i];
                             $("#" + kodeRakElement).val(contentRak);
                         }
-                        audioElement.play();
+                        
                         $('#scan_kamera_rak').modal('hide');
                         scannerListenerRak = true;
                         scanner_rak.stop();
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Scan Rak Berhasil',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     }else{
                             Swal.fire({
-                                title: 'Qr Code Salah',
-                                showClass: {
-                                    popup: 'animate__animated animate__fadeInDown'
-                                },
-                                hideClass: {
-                                    popup: 'animate__animated animate__fadeOutUp'
-                                }
-                                })
+                            position: 'center',
+                            icon: 'warning',
+                            title: 'Qr Code Salah',
+                            showConfirmButton: false,
+                            timer: 1500
+                            })
                         }
+                        audioElement.play();
                  });
                 }
             });
@@ -303,7 +325,6 @@
         }
         $("#checkAll").on('click', function(){
             var isChecked = $("#checkAll").prop('checked');
-            console.log(isChecked)
             $(".check-barang").prop('checked', isChecked);
             $("#tombol-scan-rak").prop('disabled', !isChecked);
         })
@@ -631,39 +652,4 @@
             document.getElementById("total_dimensi").value = "0";
         }
     }
-
-    $(document).on('click', '#cetak_qr', function(){
-        console.log('test');
-        var data = $('#cetak-pdf').html();
-        var dt = new Date();
-        var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-
-        // var data_header = $('#header_data').html();
-
-        var opt = { filename: 'Cetak qr_code - '+time+'.pdf',
-                    margin: [10, 10, 10, 10],
-                    image: { type: 'jpeg', quality: 1 },
-                    html2canvas:  { dpi: 500,
-                                    scale:4,
-                                    letterRendering: true,
-                                    useCORS: true},
-                    pagebreak: {
-                        mode: ['avoid-all', 'css', 'a4']
-                    },
-        };
-        html2pdf().set(opt).from(data).toPdf().get('pdf').then((pdf) => {
-            var totalPages = pdf.internal.getNumberOfPages();
-
-            for (let i = 1; i <= totalPages; i++) {
-                // set footer to every page
-                pdf.setPage(i);
-                // set footer font
-                pdf.setFontSize(10);
-                pdf.setTextColor(150);
-                // this example gets internal pageSize just as an example to locate your text near the borders in case you want to do something like "Page 3 out of 4"
-                // pdf.addImage('http://127.0.0.1:8000/img/header.png', 'png', 15, 0, pdf.internal.pageSize.getWidth()-30, 40)
-            }
-        
-        }).save();
-    })
 </script>
