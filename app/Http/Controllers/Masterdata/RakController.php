@@ -180,7 +180,7 @@ class RakController extends Controller
                 $total_dimensi = $row->dimensirak->total_dimensi;
                 $penempatan = Penempatan_barang::where('id_rak', $row->id_rak)->get();
                 $kode_barangs = $penempatan->pluck('kode_barang')->toArray();
-                $barang = Anggota_barang::where('kode_barang', $kode_barangs)->get();
+                $barang = Anggota_barang::whereIn('kode_barang', $kode_barangs)->get();
                 $id_barang = $barang->pluck('id_barang')->toArray();
 
                 if(count($id_barang) >= 1){
@@ -188,7 +188,6 @@ class RakController extends Controller
                     $persentase = $dimensi->pluck('dimensi_barang.total_dimensi')->sum();
                     $dimensi_barang = intval($persentase) * count($barang);
 
-                    
                     $total_dimensi_now = intval($dimensi_barang) / $total_dimensi;
                 } else {
                     $total_dimensi_now = 0 ;

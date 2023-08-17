@@ -118,6 +118,7 @@ Route::middleware(['auth:0'])->group(function () {
   Route::get('/penempatan/lihat/{id}', [PenempatanController::class, 'lihat'])->name('masterdata.penempatan.lihat');
   Route::post('/penempatan/createform', [PenempatanController::class, 'createform'])->name('masterdata.penempatan.createform');
   Route::post('/penempatan/deleteform', [PenempatanController::class, 'deleteform'])->name('masterdata.penempatan.deleteform');
+  Route::post('/penempatan/check_kapasitas', [PenempatanController::class, 'check_kapasitas'])->name('masterdata.penempatan.check');
 
   Route::get('/pemindahan', [PemindahanController::class, 'pemindahan'])->name('masterdata.pemindahan');
   Route::get('/pemindahan/create', [PemindahanController::class, 'create'])->name('masterdata.pemindahan.create');

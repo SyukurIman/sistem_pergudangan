@@ -74,11 +74,13 @@ class PenempatanController extends Controller
                         ->select('id')
                         ->where('kode_barang', '=', $cek_kode_barang )
                         ->first();
-                        if($cek == null){
+                        $id_rak = Rak::where('kode_rak', '=', $data['kode_rak'][$key])->value('id_rak');
+                        $check_kapasitas = $this->check_kapasitas($id_rak, $data['kode_barang'][$key]);
+                        if($cek == null && $check_kapasitas == true){
                             $penempatan = new Penempatan_barang();
                             $kode_barang=$data['kode_barang'][$key];
                             $penempatan->kode_barang=$kode_barang;
-                            $id_rak = Rak::where('kode_rak', '=', $data['kode_rak'][$key])->value('id_rak');
+                            
                             $penempatan->id_rak = $id_rak;
                             $penempatan->save();
 
@@ -90,6 +92,9 @@ class PenempatanController extends Controller
                             $pemindahan->save();
                         }else{
                             DB::rollback();
+                            if($check_kapasitas == false){
+                                return response()->json(['title'=>'Error','icon'=>'error','text'=>'Barang dengan kode '.$cek_kode_barang.' dan seterusnya tidak dapat ditambahkan, Rak sudah Penuh !!', 'ButtonColor'=>'#EF5350', 'type'=>'error']); 
+                            }
                             return response()->json(['title'=>'Error','icon'=>'error','text'=>'Barang dengan kode '.$cek_kode_barang.' sudah ada dirak', 'ButtonColor'=>'#EF5350', 'type'=>'error']); 
                         }
                     }
@@ -106,12 +111,12 @@ class PenempatanController extends Controller
         }
     }
 
-    function check_kapasitas(Request $request)
+    private function check_kapasitas($id_rak, $kode_barang)
     {
-        $total_dimensi = Rak::where('id_rak', $request->id_rak)->first()->dimensirak->total_dimensi;
-        $penempatan = Penempatan_barang::where('id_rak', $request->id_rak)->get();
+        $total_dimensi = Rak::where('id_rak', $id_rak)->first()->dimensirak->total_dimensi;
+        $penempatan = Penempatan_barang::where('id_rak', $id_rak)->get();
         $kode_barangs = $penempatan->pluck('kode_barang')->toArray();
-        $barang = Anggota_barang::where('kode_barang', $kode_barangs)->get();
+        $barang = Anggota_barang::whereIn('kode_barang', $kode_barangs)->get();
         $id_barang = $barang->pluck('id_barang')->toArray();
 
         if(count($id_barang) >= 1){
@@ -120,10 +125,15 @@ class PenempatanController extends Controller
             $dimensi_barang = intval($persentase) * count($barang);
 
             
-            $total_dimensi_now = intval($dimensi_barang) / $total_dimensi ;
-        } else {
-            $total_dimensi_now = 0 ;
-        }
+            $barang_new = Anggota_barang::where('kode_barang', $kode_barang)->first()->barang->dimensi_barang->total_dimensi;
+            $total_dimensi_now = (intval($dimensi_barang) + intval($barang_new)) / $total_dimensi ;
+
+            if ($total_dimensi_now*100 >= 100){
+                return False; 
+            } 
+        } 
+        return True; 
+        
     }
 
     // function deleteform(Request $request){

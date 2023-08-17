@@ -77,9 +77,12 @@ class PemindahanController extends Controller
                         ->select('id')
                         ->where('kode_barang', '=', $cek_kode_barang )
                         ->first();
-                        if($cek != null){
+                        $id_rak_tujuan= Rak::where('kode_rak', '=', $data['kode_rak'][$key])->value('id_rak');
+                        $check_kapasitas = $this->check_kapasitas($id_rak_tujuan, $data['kode_barang'][$key]);
+                        
+                        if($cek != null && $check_kapasitas == true){
                             $id_rak_asal = Rak::where('kode_rak', '=', $data['kode_rak_asal'][$key])->value('id_rak');
-                            $id_rak_tujuan= Rak::where('kode_rak', '=', $data['kode_rak'][$key])->value('id_rak');
+                            
                             $pemindahan = new Pemindahan_barang();
                             $pemindahan->tanggal_pemindahan =  Carbon::now();
                             $pemindahan->kode_barang = $data['kode_barang'][$key];
@@ -96,6 +99,9 @@ class PemindahanController extends Controller
                             );
                         }else{
                             DB::rollback();
+                            if($check_kapasitas == false){
+                                return response()->json(['title'=>'Error','icon'=>'error','text'=>'Barang dengan kode '.$cek_kode_barang.' dan seterusnya tidak dapat ditambahkan, Rak sudah Penuh !!', 'ButtonColor'=>'#EF5350', 'type'=>'error']); 
+                            }
                             return response()->json(['title'=>'Error','icon'=>'error','text'=>'Barang dengan kode '.$cek_kode_barang.' belum ada dirak', 'ButtonColor'=>'#EF5350', 'type'=>'error']); 
                         }
                     }
@@ -110,6 +116,31 @@ class PemindahanController extends Controller
             DB::rollback();
             return response()->json(['title'=>'Error','icon'=>'error','text'=>$e->getMessage(), 'ButtonColor'=>'#EF5350', 'type'=>'error']); 
         }
+    }
+
+    private function check_kapasitas($id_rak, $kode_barang)
+    {
+        $total_dimensi = Rak::where('id_rak', $id_rak)->first()->dimensirak->total_dimensi;
+        $penempatan = Penempatan_barang::where('id_rak', $id_rak)->get();
+        $kode_barangs = $penempatan->pluck('kode_barang')->toArray();
+        $barang = Anggota_barang::whereIn('kode_barang', $kode_barangs)->get();
+        $id_barang = $barang->pluck('id_barang')->toArray();
+
+        if(count($id_barang) >= 1){
+            $dimensi = Barang::where('id', $id_barang[0])->with('dimensi_barang')->get(); // Menggunakan with() untuk eager loading
+            $persentase = $dimensi->pluck('dimensi_barang.total_dimensi')->sum();
+            $dimensi_barang = intval($persentase) * count($barang);
+
+            
+            $barang_new = Anggota_barang::where('kode_barang', $kode_barang)->first()->barang->dimensi_barang->total_dimensi;
+            $total_dimensi_now = (intval($dimensi_barang) + intval($barang_new)) / $total_dimensi ;
+
+            if ($total_dimensi_now*100 >= 100){
+                return False; 
+            } 
+        } 
+        return True; 
+        
     }
 
     // function deleteform(Request $request){
