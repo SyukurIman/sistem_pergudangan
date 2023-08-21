@@ -203,7 +203,7 @@ class BarangController extends Controller
     public function update(Request $request, $id)
     {
         $barang = Barang::find($id);
-        $barang->nama_dimensi = $request->input('nama_dimensi');
+        $barang->nama_barang = $request->input('nama_barang');
         $barang->id_dimensi = $request->input('id_dimensi');
         $barang->id_kategori = $request->input('id_kategori');
         $barang->berat_barang = $request->input('berat_barang');
