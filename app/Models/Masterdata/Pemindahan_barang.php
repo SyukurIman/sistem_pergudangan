@@ -16,7 +16,7 @@ class Pemindahan_barang extends Model
     
     public function anggotabarang()
     {
-        return $this->belongsTo('App\Models\Anggota_barang', 'kode_barang', 'kode_barang');
+        return $this->belongsTo('App\Models\Anggota_barang', 'kode_barang', 'kode_barang')->withTrashed();
     }
     public function rakAsal()
     {

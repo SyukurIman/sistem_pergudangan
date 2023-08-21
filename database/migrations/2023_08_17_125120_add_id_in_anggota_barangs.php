@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSoftdeletePenempatanBarangTable extends Migration
+class AddIdInAnggotaBarangs extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddSoftdeletePenempatanBarangTable extends Migration
      */
     public function up()
     {
-        Schema::table('penempatan_barangs', function (Blueprint $table) {
-            $table->softDeletes();
+        Schema::table('anggota_barangs', function (Blueprint $table) {
+            $table->id();
         });
     }
 
@@ -25,6 +25,8 @@ class AddSoftdeletePenempatanBarangTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('anggota_barangs', function (Blueprint $table) {
+            //
+        });
     }
 }
