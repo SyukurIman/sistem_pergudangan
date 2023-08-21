@@ -24,13 +24,14 @@
                         </div>
                         <div class="row col-md-12">
                             <div class="col-md-12">
-                              <div class="table-responsive mt-2">
-                                <table id="table_scan" class="table stripe" style="width: 100%;">
+                              <div class="table-responsive">
+                                <table id="table_scan" class="table table-striped">
                                     <thead>
                                         <tr class="tr-table">
-                                            <th class="th-table" style="font-size: 12px;"><input type="checkbox" class="center" id="checkAll" name="vehicle1"></th>
+                                            <th class="th-table text-center" style="font-size: 12px;"><input type="checkbox" class="center" id="checkAll" name="vehicle1"></th>
                                             <th class="th-table" style="font-size: 12px;">Nama Barang</th>
                                             <th class="th-table" style="font-size: 12px;">Kode Barang</th>
+                                            <th class="th-table" style="font-size: 12px;">Berat Barang</th>
                                             <th class="th-table" style="font-size: 12px;">Kode Rak</th>
                                             <th class="th-table" style="font-size: 12px;">Aksi</th>
                                         </tr>

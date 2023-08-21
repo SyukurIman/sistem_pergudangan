@@ -195,27 +195,31 @@
                                             @foreach ($barang as $k)
                                                 if('{{$i->anggotabarang->id_barang}}'=== '{{$k->id}}'){
                                                     var nama_barang = '{{$k->nama_barang}}';
+                                                    var berat_barang = '{{$k->berat_barang}}';
                                                 }
                                             @endforeach
                                             html += `<tr>
                                                             <td>
                                                                 <input type="hidden" name="id[]" value="{{$i->id}}">
-                                                                <input type="checkbox" class="check-barang" name="vehicle1" value="kode_rak${no}">
+                                                                <input type="checkbox" class="check-barang" name="${content}" id="{{$i->rak->kode_rak}}" value="kode_rak${no}">
                                                             </td>
                                                             <td>
-                                                                <input type="text" name="nama_barang[]" class="form-control nama_barang" data-id="${no}" value="${nama_barang}" readonly required>
+                                                                <input type="text" name="nama_barang[]" class="form-control nama_barang border-0" data-id="${no}" style="background:none;" value="${nama_barang}" readonly required>
                                                                 <p class="help-block" style="display: none;"></p>
                                                             </td>
                                                             <td>
-                                                                <input type="text" name="kode_barang[]" class="form-control kode_barang${no}" data-id="${no}" value="{{$i->kode_barang}}" placeholder="Scan Rak" readonly required>
+                                                                <input type="text" name="kode_barang[]" class="form-control kode_barang${no} border-0" data-id="${no}" style="background:none;" value="{{$i->kode_barang}}" placeholder="Scan Rak" readonly required>
                                                                 <p class="help-block" style="display: none;"></p>
                                                             </td>
                                                             <td>
-                                                                <input type="text" name="kode_rak_asal[]" class="form-control kode_rak_asal" placeholder="otomatis" value="{{$i->rak->kode_rak}}" readonly required>
+                                                                <input type="text" class="form-control border-0" data-id="${no}" value="${berat_barang} kg" style="background:none;" readonly required>
+                                                                <p class="help-block" style="display: none;"></p></td>
+                                                            <td>
+                                                                <input type="text" name="kode_rak_asal[] " class="form-control kode_rak_asal border-0" placeholder="otomatis" style="background:none;" value="{{$i->rak->kode_rak}}" readonly required>
                                                                 <p class="help-block" style="display: none;"></p>
                                                             </td>
                                                             <td>
-                                                                <input type="text" name="kode_rak[]" class="form-control kode_rak" id="kode_rak${no}" placeholder="otomatis"  readonly required>
+                                                                <input type="text" name="kode_rak[]" class="form-control kode_rak border-0" id="kode_rak${no}" style="background:none;" placeholder="otomatis"  readonly required>
                                                                 <p class="help-block" style="display: none;"></p>
                                                             </td>
                                                             <td>
@@ -288,32 +292,83 @@
                 var scannerListenerRak = false;
                 $('#scan_kamera_rak').on('shown.bs.modal', function () {
                 if (!scannerListenerRak) {
-                scanner_rak.addListener('scan', function (contentRak) {
-                    console.log(contentRak);
+                    scanner_rak.addListener('scan', function (contentRak) {
                     const firstLetterR = contentRak.charAt(0);
                     if(firstLetterR === 'R'){
+                        @foreach ($rak as $c)
+                            if('{{$c->kode_rak}}' == contentRak){
+                                var dayaTampung = '{{$c->daya_tampung}}';
+                            }
+                        @endforeach
+                        var beratTotal =0;
+                        var idBarang = [];
+                        @foreach ($cek_penempatan as $k)
+                            if('{{$k->rak->kode_rak}}' == contentRak){
+                                idBarang.push('{{$k->anggotabarang->id_barang}}');
+                            }
+                        @endforeach
+                        for (var i = 0; i < idBarang.length; i++) {
+                            var barangid = idBarang[i];
+                            @foreach ($barang as $b)
+                            if ( barangid == '{{$b->id}}' ) {
+                                beratTotal += {{$b->berat_barang}};
+                            }
+                            @endforeach
+                        }
                         let checkbox_terpilih = $("#table_scan tbody .check-barang:checked");
                         let id_kode_rak =[];
+                        let kode_rak=[];
+                        let kode_barang =[];
                         $.each(checkbox_terpilih,function(index,elm){
-                            id_kode_rak.push(elm.value)
+                            id_kode_rak.push(elm.value);
+                            kode_rak.push(elm.id);
+                            kode_barang.push(elm.name);
                         })
-                        for (var i = 0; i < id_kode_rak.length; i++) {
-                            var kodeRakElement = id_kode_rak[i];
-                            $("#" + kodeRakElement).val(contentRak);
+                        var beratInputBarang=0;
+                        for (var i = 0; i < kode_barang.length; i++) {
+                            var barangKode = kode_barang[i];
+                            @foreach ($barang_scan as $s)
+                            if ( barangKode == '{{$s->kode_barang}}' ) {
+                                beratInputBarang += {{$s->barang->berat_barang}};
+                            }
+                            @endforeach
                         }
-                        audioElement.play();
+                        var sisaDayaTampung = dayaTampung - beratTotal;
+                        console.log(sisaDayaTampung);
+                        console.log(beratInputBarang);
+                        if(!kode_rak.includes(contentRak)){
+                            if(beratInputBarang > sisaDayaTampung){
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Kurangi Barang, Daya tampung rak Tersisa:' + sisaDayaTampung + 'kg',
+                                });
+                            }else{
+                                for (var i = 0; i < id_kode_rak.length; i++) {
+                                var kodeRakElement = id_kode_rak[i];
+                                $("#" + kodeRakElement).val(contentRak);
+                                }
+                                Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Scan Rak Berhasil',
+                                showConfirmButton: false,
+                                timer: 1500
+                                })
+                            }
+                        }else{
+                            Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: ' kode rak pindah harus berbeda dengan kode rak asal',
+                            });
+                        }
                         $('#scan_kamera_rak').modal('hide');
                         scannerListenerRak = true;
                         scanner_rak.stop();
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'Scan Rak Berhasil',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
+                        
                     }else{
-                        Swal.fire({
+                            Swal.fire({
                             position: 'center',
                             icon: 'warning',
                             title: 'Qr Code Salah',
@@ -321,7 +376,7 @@
                             timer: 1500
                             })
                         }
-                    audioElement.play();
+                        audioElement.play();
                  });
                 }
             });

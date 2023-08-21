@@ -92,7 +92,7 @@
                                         </div>
                                         <div class="col-md-6 mt-2">
                                             <label for="daya_tampung[]" class="label1">daya tampung</label><span class="required">*</span>
-                                            <input  type="number" name="daya_tampung[]" class="form-control daya_tampung" data-id="0" required>
+                                            <input  type="number" placeholder="Isi berat daya tampung rak, satuan kg"  name="daya_tampung[]" class="form-control daya_tampung" data-id="0" required>
                                             <p class="help-block" style="display: none;"></p>
                                         </div>
                                          <br>
@@ -155,7 +155,7 @@
                                        </div>
                                        <div class="col-md-6 mt-2">
                                            <label for="daya_tampung[]" class="label1">daya tampung</label><span class="required">*</span>
-                                           <input  value="{{$rak[$i]->daya_tampung }}" type="number" name="daya_tampung[]" {{($type == 'lihat' ? 'disabled' : '')}} class="form-control daya_tampung" data-id="{{$i}}" required>
+                                           <input  value="{{$rak[$i]->daya_tampung }}" type="number" name="daya_tampung[]"  placeholder="Isi berat daya tampung rak satuan kg" {{($type == 'lihat' ? 'disabled' : '')}} class="form-control daya_tampung" data-id="{{$i}}" required>
                                            <p class="help-block" style="display: none;"></p>
                                        </div>
                                      </div>

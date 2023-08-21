@@ -34,10 +34,13 @@ class PenempatanController extends Controller
     function create(){
         $this->data['type'] = "create";
         $this->data['data'] = null;
+        $this->data['rak'] = Rak::get();
+        $this->data['barang'] = Barang::get();
         $this->data['barang_scan']= Anggota_barang::with([
                                         'barang',
                                     ])->get();
-        $this->data['cek_penempatan']= Penempatan_barang::with(['rak'])->whereNull('Penempatan_barangs.deleted_at')->get();
+        $this->data['cek_penempatan']= Penempatan_barang::with(['rak','anggotabarang'])->whereNull('Penempatan_barangs.deleted_at')->get();
+        // dd($this->data['cek_penempatan']);
     	return view($this->data['parent'].'.'.$this->data['modul'].'.index', $this->data);
     }
     function lihat($id_sektor){

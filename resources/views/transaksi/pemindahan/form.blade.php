@@ -31,6 +31,7 @@
                                             <th class="th-table" style="font-size: 12px;"><input type="checkbox" class="center" id="checkAll" name="vehicle1"></th>
                                             <th class="th-table" style="font-size: 12px;">Nama Barang</th>
                                             <th class="th-table" style="font-size: 12px;">Kode Barang</th>
+                                            <th class="th-table" style="font-size: 12px;">Berat Barang</th>
                                             <th class="th-table" style="font-size: 12px;">Kode Rak saat ini</th>
                                             <th class="th-table" style="font-size: 12px;">Kode Rak pindah</th>
                                             <th class="th-table" style="font-size: 12px;">Aksi</th>

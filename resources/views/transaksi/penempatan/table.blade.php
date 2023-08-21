@@ -2,7 +2,6 @@
     <a href="/penempatan/create" type="button" class="btn btn-primary btn-data" id="btn-create" style="margin: 1em 0 0 0;">
         <i class="fa fa-plus-square"></i> <span>Tambah</span>
     </a>
-    <button style="margin: 1em 0 0 0;" class="btn btn-primary fa fa-plus add-dimensi-btn" type="button" data-id="0" data-toggle="modal" data-target="#qrCode" ></button>
 </div>
 <div class="table-data col p-0">
 <div class="w-full">
