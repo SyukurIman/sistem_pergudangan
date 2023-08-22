@@ -51,6 +51,7 @@
                     { data: 'nama_kategori', name: 'nama_kategori', class: 'text-left' },
                     { data: 'berat_barang', name: 'berat_barang', class: 'text-left' },
                     { data: 'total_dimensi', name: 'total_dimensi', class: 'text-left' },
+                    { data: 'total_barang', name: 'total_barang', class: 'text-left'},
                 ],
                 "order": [],
                 "columnDefs": [

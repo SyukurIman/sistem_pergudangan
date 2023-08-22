@@ -29,6 +29,6 @@ class Anggota_barang extends Model
 
     public function barang_keluar()
     {
-        return $this->belongsTo(Barang_keluar::class, 'kode_barang', 'kode_barang')->withTrashed();
+        return $this->belongsTo(Barang_keluar::class, 'kode_barang', 'kode_barang');
     }
 }
