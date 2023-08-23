@@ -140,10 +140,25 @@
                 var audioElement = document.createElement('audio');
                 audioElement.setAttribute('src', 'https://www.soundjay.com/buttons/button-3.wav');
 
-                let scanner = new Instascan.Scanner({ video: document.getElementById('qr-reader-barang') });
+                let scanner = new Instascan.Scanner({ video: document.getElementById('qr-reader-barang'),  mirror: false });
                 Instascan.Camera.getCameras().then(function (cameras) {
                     if (cameras.length > 0) {
                         scanner.start(cameras[0]);
+                        $('[name="options"]').on('change',function(){
+                            if($(this).val()==1){
+                                if(cameras[0]!=""){
+                                    scanner.start(cameras[0]);
+                                }else{
+                                    alert('No Front camera found!');
+                                }
+                            }else if($(this).val()==2){
+                                if(cameras[1]!=""){
+                                    scanner.start(cameras[1]);
+                                }else{
+                                    alert('No Back camera found!');
+                                }
+                            }
+                        });
                     } else {
                         console.error('No cameras found.');
                     }
@@ -279,10 +294,25 @@
                 var audioElement = document.createElement('audio');
                 audioElement.setAttribute('src', 'https://www.soundjay.com/buttons/button-3.wav');
 
-                let scanner_rak = new Instascan.Scanner({ video: document.getElementById('qr-reader-rak') });
+                let scanner_rak = new Instascan.Scanner({ video: document.getElementById('qr-reader-rak'),  mirror: false });
                 Instascan.Camera.getCameras().then(function (cameras) {
                     if (cameras.length > 0) {
                         scanner_rak.start(cameras[0]);
+                        $('[name="options_r"]').on('change',function(){
+                            if($(this).val()==1){
+                                if(cameras[0]!=""){
+                                    scanner_rak.start(cameras[0]);
+                                }else{
+                                    alert('No Front camera found!');
+                                }
+                            }else if($(this).val()==2){
+                                if(cameras[1]!=""){
+                                    scanner_rak.start(cameras[1]);
+                                }else{
+                                    alert('No Back camera found!');
+                                }
+                            }
+                        });
                     } else {
                         console.error('No cameras found.');
                     }
