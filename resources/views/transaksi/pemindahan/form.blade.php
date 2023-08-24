@@ -2,7 +2,7 @@
      <div class="row col-md-12" style="margin-bottom: 1em;">
         <div class="col text-left" style="margin: 1em 0 0 -1em;">
         </div>
-        <div class="col text-right" style="margin: 0 -3em 0 0;">
+        <div class="col text-right" style="margin: 0 -1em 0 0;">
             <a href="/pemindahan" type="button" class="btn btn-primary btn-data-sec">
                 <i class="fa fa-chevron-left"></i> <span>Kembali</span>
             </a>
@@ -17,17 +17,17 @@
                         <div class="row col-md-12">
                             <div class="col-md-12">
                                 @if ($type=='create'|| $type=='update')
-                                <button type="button"  class="btn btn-info" id="tombol-scan-barang" data-toggle="modal" data-target="#scan_kamera_barang"><b>+</b>Scan barang</button>
-                                <button type="button"  disabled id="tombol-scan-rak" class="btn btn-info"  data-toggle="modal" data-target="#scan_kamera_rak"><b>+</b>Scan rak</button>
+                                <button type="button"  class="btn btn-primary" id="tombol-scan-barang" data-toggle="modal" data-target="#scan_kamera_barang"><i class="fa fa-plus-square"></i> <span>Scan barang</span></button>
+                                <button type="button"  disabled id="tombol-scan-rak" class="btn btn-primary"  data-toggle="modal" data-target="#scan_kamera_rak"><i class="fa fa-plus-square"></i> <span>Scan rak</span></button>
                                 @endif
                             </div>
                         </div>
                         <div class="row col-md-12">
                             <div class="col-md-12">
                               <div class="table-responsive mt-2">
-                                <table id="table_scan" class="table stripe" style="width: 100%;">
+                                <table id="table_scan" class="table table-striped" style="width: 100%;">
                                     <thead>
-                                        <tr class="tr-table">
+                                        <tr class="tr-table text-center">
                                             <th class="th-table" style="font-size: 12px;"><input type="checkbox" class="center" id="checkAll" name="vehicle1"></th>
                                             <th class="th-table" style="font-size: 12px;">Nama Barang</th>
                                             <th class="th-table" style="font-size: 12px;">Kode Barang</th>

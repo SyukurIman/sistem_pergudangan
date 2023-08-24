@@ -218,23 +218,23 @@
                                                                 <input type="hidden" name="id[]" value="{{$i->id}}">
                                                                 <input type="checkbox" class="check-barang" name="${content}" id="{{$i->rak->kode_rak}}" value="kode_rak${no}">
                                                             </td>
-                                                            <td>
-                                                                <input type="text" name="nama_barang[]" class="form-control nama_barang border-0" data-id="${no}" style="background:none;" value="${nama_barang}" readonly required>
+                                                            <td>${nama_barang}
+                                                                <input type="hidden" name="nama_barang[]" class="form-control nama_barang border-0" data-id="${no}" style="background:none;" value="${nama_barang}" readonly required>
                                                                 <p class="help-block" style="display: none;"></p>
                                                             </td>
-                                                            <td>
-                                                                <input type="text" name="kode_barang[]" class="form-control kode_barang${no} border-0" data-id="${no}" style="background:none;" value="{{$i->kode_barang}}" placeholder="Scan Rak" readonly required>
+                                                            <td>{{$i->kode_barang}}
+                                                                <input type="hidden" name="kode_barang[]" class="form-control kode_barang${no} border-0" data-id="${no}" style="background:none;" value="{{$i->kode_barang}}" placeholder="Scan Rak" readonly required>
                                                                 <p class="help-block" style="display: none;"></p>
                                                             </td>
-                                                            <td>
-                                                                <input type="text" class="form-control border-0" data-id="${no}" value="${berat_barang} kg" style="background:none;" readonly required>
+                                                            <td>${berat_barang}
+                                                                <input type="hidden" class="form-control border-0" data-id="${no}" value="${berat_barang} kg" style="background:none;" readonly required>
                                                                 <p class="help-block" style="display: none;"></p></td>
-                                                            <td>
-                                                                <input type="text" name="kode_rak_asal[] " class="form-control kode_rak_asal border-0" placeholder="otomatis" style="background:none;" value="{{$i->rak->kode_rak}}" readonly required>
+                                                            <td>{{$i->rak->kode_rak}}
+                                                                <input type="hidden" name="kode_rak_asal[] " class="form-control kode_rak_asal border-0" placeholder="otomatis" style="background:none;" value="{{$i->rak->kode_rak}}" readonly required>
                                                                 <p class="help-block" style="display: none;"></p>
                                                             </td>
                                                             <td>
-                                                                <input type="text" name="kode_rak[]" class="form-control kode_rak border-0" id="kode_rak${no}" style="background:none;" placeholder="otomatis"  readonly required>
+                                                                <input type="hidden" name="kode_rak[]" class="form-control kode_rak border-0" id="kode_rak${no}" style="background:none;" placeholder="otomatis"  readonly required>
                                                                 <p class="help-block" style="display: none;"></p>
                                                             </td>
                                                             <td>
@@ -377,6 +377,7 @@
                                 for (var i = 0; i < id_kode_rak.length; i++) {
                                 var kodeRakElement = id_kode_rak[i];
                                 $("#" + kodeRakElement).val(contentRak);
+                                $("#" + kodeRakElement).parent().html(contentRak);
                                 }
                                 Swal.fire({
                                 position: 'center',
@@ -393,9 +394,7 @@
                                     text: ' kode rak pindah harus berbeda dengan kode rak asal',
                             });
                         }
-                        $('#scan_kamera_rak').modal('hide');
                         scannerListenerRak = true;
-                        scanner_rak.stop();
                         
                     }else{
                             Swal.fire({

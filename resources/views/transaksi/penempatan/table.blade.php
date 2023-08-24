@@ -31,7 +31,7 @@
         </div>
     </div>
 <div class="table-responsive mt-2">
-    <table id="table" class="table stripe" style="width: 100%;">
+    <table id="table" class="table table-striped" style="width: 100%;">
         <thead>
             <tr class="tr-table">
                 <th class="th-table" style="font-size: 12px;">No</th>

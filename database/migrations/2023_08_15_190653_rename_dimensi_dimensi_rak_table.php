@@ -13,9 +13,9 @@ class RenameDimensiDimensiRakTable extends Migration
      */
     public function up()
     {
-        // Schema::table('dimensi_rak', function (Blueprint $table) {
-        //     $table->renameColumn('dimensi', 'total_dimensi');
-        // });
+        Schema::table('dimensi_rak', function (Blueprint $table) {
+            $table->renameColumn('dimensi', 'total_dimensi');
+        });
     }
 
     /**
