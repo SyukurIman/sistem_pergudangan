@@ -40,10 +40,23 @@ class BarangController extends Controller
     public function get_data()
     {
         $data_barang = Barang::all();
-        return DataTables::of($data_barang->load('dimensi_barang', 'kategori'))
+        return DataTables::of($data_barang->load('dimensi_barang', 'kategori', 'anggota_barang', 'anggota_barang.barang_masuk', 'anggota_barang.barang_keluar'))
             ->addIndexColumn()
             ->addColumn('nama_kategori', function($row){return $row->kategori->nama_kategori;})
             ->addColumn('total_dimensi', function($row){return $row->dimensi_barang->total_dimensi;})
+            ->addColumn('total_barang', function($row){
+                $total_barang = 0;
+                if(isset($row->anggota_barang->barang_masuk)){
+                    $total_masuk = $row->anggota_barang->barang_masuk->count();
+                    if(isset($row->anggota_barang->barang_keluar)){
+                        $total_keluar = $row->anggota_barang->barang_keluar->count();
+                        $total_barang = $total_masuk - $total_keluar;
+                    } else {
+                        $total_barang = $total_masuk;
+                    }
+                }
+              
+                return $total_barang;})
             ->addColumn('action', function($row){
                 $btn = '';
                 $btn .= '<div class="text-center">';
