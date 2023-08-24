@@ -451,7 +451,7 @@
                                             type : result.type,
                                         }).then((result) => {
                                             $('#dimensi_rak').modal('hide');
-                                            $('#dimensi_reload').DataTable().ajax.reload();
+                                            location.href = "/rak/create";
                                         });
                                     }else{
                                         swal.fire({
