@@ -272,7 +272,7 @@
                 var table = $('#table').DataTable();
                 var data = table.row(baris).data();
 
-                $('.pop_up').attr('style', 'display:block;')
+                $('#pop_up').attr('style', 'display:block; z-index: 9999;background-color: #5c4f4fa3;overflow-x: hidden; overflow-y: auto;').addClass('show modal-open').attr('role', 'dialog')
                 $('#id_barang').val(data.id)
                 $('#nama_barang').val(data.nama_barang)
 
@@ -442,7 +442,7 @@
                     });
                 },
                 success: function(result){
-                    html = `<div class='col m-2 border'> `+index+` - `+result+` </div>`
+                    html = `<div class='col m-1 p-3 border'>`+result+` </div>`
                     $(".list_qr_code").prepend(html);
                     console.log(result)
                 }})
@@ -451,8 +451,12 @@
         swal.close();
     });
 
+    $(document).on('click', '.btn_close', function(){
+        $('#pop_up').attr('style', 'display:none;')
+    })
+
     $(document).on('click', '#cetak_qr', function(){
-        var data = $('.list_qr_code').html();
+        var data = $('#list_qr_code').html();
         var dt = new Date();
         var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
 
@@ -462,7 +466,7 @@
                     margin: [10, 10, 10, 10],
                     image: { type: 'jpeg', quality: 1 },
                     html2canvas:  { dpi: 500,
-                                    scale:4,
+                                    scale:2,
                                     letterRendering: true,
                                     useCORS: true},
                     pagebreak: {

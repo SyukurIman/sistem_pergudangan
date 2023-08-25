@@ -56,21 +56,43 @@
             </tbody>
         </table>
     </div>
+  
+</div>
 
-    <div class="pop_up" style="display: none">
-        <p>Ini Pop Up</p>
-        <form id="form-data" method="post" autocompleted="off" enctype="multipart/form-data">
-            {{csrf_field();}}
-            <input type="text" name="id_barang" id="id_barang" hidden>
-
-            <label for="nama_barang">Nama Barang</label>
-            <input type="text" name="nama_barang" id="nama_barang">
-
-            <label for="count_qr">Jumlah Generate</label>
-            <input type="number" name="count_qr" id="count_qr">
-        </form>
-        <button id="btn-qr_code">Generate Qr_Code</button>
-        <button id="cetak_qr">Cetak Qr_Code</button>
-        <div class="list_qr_code row"></div>
+<div class="modal fade bd-example-modal-lg " id="pop_up"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Generate QrCode Barang</h5>
+                <button type="button" class="btn_close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col">
+                    <form id="form-data" method="post" autocompleted="off" enctype="multipart/form-data">
+                        {{csrf_field();}}
+                        <input type="text" name="id_barang" id="id_barang" hidden>
+    
+                        <label for="nama_barang">Nama Barang</label>
+                        <input class="form-control" type="text" name="nama_barang" id="nama_barang" disabled>
+    
+                        <label for="count_qr">Jumlah Generate</label>
+                        <input class="form-control" type="number" name="count_qr" id="count_qr">
+                    </form>
+                    <div class="col ml-0 pl-0 mt-2">
+                        <button class="btn btn-secondary btn-raised btn-xs" id="btn-qr_code">Generate Qr_Code</button>
+                        <button class="btn btn-warning btn-raised btn-xs" id="cetak_qr">Cetak Qr_Code</button>
+                    </div>
+                    <div class="col mt-1" id="list_qr_code">
+                        <div class="row list_qr_code"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn_close" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        
     </div>
 </div>
