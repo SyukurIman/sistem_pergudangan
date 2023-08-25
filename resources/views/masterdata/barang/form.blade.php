@@ -1,3 +1,4 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <div class="d-flex justify-content-center align-items-center border-2 rounded">
 <div class="mt-3 col-md-6  z-0 d-grid place-items-center" >
 <form id="form-data" method="post" autocompleted="off" enctype="multipart/form-data">
@@ -5,7 +6,8 @@
     <label for="nama_barang" class="form-label">Nama Barang</label>
     <input type="text" name="nama_barang" id="nama_barang" value="{{ isset($data_barang) ? $data_barang->nama_barang : '' }}" class="form-control">
     
-    <label for="id_dimensi" class="form-label">Dimensi Barang</label>
+    <label for="id_dimensi" class="form-label mt-1">Dimensi Barang</label>
+    <br>
     <select name="id_dimensi" id="id_dimensi" class="dimensi_check form-select" required >
         <option disabled selected >Pilih dimensi barang</option>
         @if (isset($data_dimensi))
