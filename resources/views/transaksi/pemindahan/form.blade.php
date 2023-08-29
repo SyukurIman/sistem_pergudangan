@@ -2,28 +2,29 @@
      <div class="row col-md-12" style="margin-bottom: 1em;">
         <div class="col text-left" style="margin: 1em 0 0 -1em;">
         </div>
-        <div class="col text-right" style="margin: 0 -1em 0 0;">
+        <div class="col text-right" style="margin: 0 -3em 0 0;">
             <a href="/pemindahan" type="button" class="btn btn-primary btn-data-sec">
                 <i class="fa fa-chevron-left"></i> <span>Kembali</span>
             </a>
         </div>
          </div>
-        <div class="table-data">
-            <div class="todo">
+         <div class="card">
                 <form id="form-data" method="post" autocompleted="off" enctype="multipart/form-data">
                     {{csrf_field();}}
                     @if ($type=='create')
-                    <div class="form-group">
+                    <div class="form-group mt-2">
                         <div class="row col-md-12">
                             <div class="col-md-12">
                                 @if ($type=='create'|| $type=='update')
-                                <button type="button"  class="btn btn-primary" id="tombol-scan-barang" data-toggle="modal" data-target="#scan_kamera_barang"><i class="fa fa-plus-square"></i> <span>Scan barang</span></button>
-                                <button type="button"  disabled id="tombol-scan-rak" class="btn btn-primary"  data-toggle="modal" data-target="#scan_kamera_rak"><i class="fa fa-plus-square"></i> <span>Scan rak</span></button>
+                                <button type="button"  class="btn btn-primary" id="tombol-scan-barang" data-toggle="modal" data-target="#scan_kamera_barang"><i class="fa fa-qrcode"></i> <span>Scan barang</span></button>
+                                <button type="button"  disabled id="tombol-scan-rak" class="btn btn-primary"  data-toggle="modal" data-target="#scan_kamera_rak"><i class="fa fa-qrcode"></i> <span>Scan rak</span></button>
                                 @endif
                             </div>
                         </div>
-                        <div class="row col-md-12">
-                            <div class="col-md-12">
+                      </div>
+                        <div class="container mt-2">
+                        <div class="row">
+                            <div class="col">
                               <div class="table-responsive mt-2">
                                 <table id="table_scan" class="table table-striped" style="width: 100%;">
                                     <thead>
@@ -46,7 +47,7 @@
                             </div>
                             </div>
                         </div>
-                    </div>
+                      </div>
                     @endif
                     @if($type != "lihat")
                     <div class="form-group">
@@ -58,8 +59,7 @@
                     </div>
                     @endif
                 </form>
-            </div>
-    </div>
+          </div>
 
 
 <!-- scan barang -->

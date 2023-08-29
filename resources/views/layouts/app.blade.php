@@ -25,12 +25,16 @@
         
         
         <main>
-            <div class="mx-auto sm:px-6 lg:px-8">
-                @yield('content')
-            </div>
-            
+            <h1 class="title">{{$title}}</h1>
+			<ul class="breadcrumbs">
+				<li><a href="#">{{$parent}}</a></li>
+				<li class="divider">/</li>
+				<li><a href="#" class="active">Dashboard</a></li>
+			</ul>
+            @yield('content')
         </main>
-        
+        </section>
+        @include('layouts.script')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
