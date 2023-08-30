@@ -1,57 +1,68 @@
-<div class="col text-right" style="margin: 0 -3em 0 0;">
-    <a href="/admin/barang/add" type="button" class="btn btn-primary btn-data" id="btn-create" style="margin: 1em 0 0 0;">
-        <i class="fa fa-plus-square"></i> <span>Tambah</span>
-    </a>
-    
-    {{-- <button style="margin: 1em 0 0 0;" class="btn btn-primary fa fa-qrcode add-dimensi-btn" type="button" data-toggle="modal" data-target="#qrCode" disabled> QR CODE</button> --}}
+
+
+<div class="row col-md-12" style="margin-bottom: 1em;">
+    <div class="col text-left" style="margin: 1em 0 0 -1em;">
+        <a href="/admin/barang/kategori" type="button" class="btn btn-primary btn-data" id="btn-create" style="margin: 1em 0 0 0;">
+            <i class="bi bi-tag-fill"></i> <span>Kategori</span>
+        </a>
+        <a href="/admin/barang/dimensi" type="button" class="btn btn-primary btn-data" id="btn-create" style="margin: 1em 0 0 0;">
+            <i class="bi bi-box-seam-fill"></i> <span>Dimensi</span>
+        </a>
+    </div>
+    <div class="col text-right" style="margin: 0 -3em 0 0;">
+        <a href="/admin/barang/add" type="button" class="btn btn-primary btn-data" id="btn-create" style="margin: 1em 0 0 0;">
+            <i class="fa fa-plus-square"></i> <span>Tambah</span>
+        </a>
+    </div>
 </div>
 
-<div class="table-data col">
-    <div class="w-full sm:flex">
-        <h3 class="text-lg sm:text-xl">Data Barang</h3>
-        <div class="gap-4 justify-center col flex sm:justify-end">
-            <button type="button" class="btn-data-sec" id="btn-muat-ulang" style="margin: 1em 0 0 0;">
-                <i class="fa fa-refresh"></i>
-            </button>
-            <button type="button" class=" btn-data-sec" id="btn-cetak" style="margin: 1em 0 0 0;">
-                <i class="fa fa-file-excel-o"></i>
-            </button>
-            <div class="dropdown" >
-                <button style="margin: 1em 0 0 0" class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-filter"></i>
+<div class="card mt-3">
+    <div class="card-body">
+        <div class="row col">
+            <h3 class="text-lg sm:text-xl col-md-6">Data Barang</h3>
+            <div class="gap-4 justify-end col flex sm:justify-end">
+                <button type="button" class="btn btn-data-sec" id="btn-muat-ulang" style="margin: 1em 0 0 0;">
+                    <i class="fa fa-refresh"></i>
                 </button>
-                <div class="dropdown-menu">
-                    <label class="dropdown-item"><input class="toggle-vis" data-column="3" type="checkbox" checked> Nama Barang </label>
-                    <label class="dropdown-item"><input class="toggle-vis" data-column="4" type="checkbox" checked> Kategori</label>
-                    <label class="dropdown-item"><input class="toggle-vis" data-column="5" type="checkbox" checked> Berat Barang </label>
-                    <label class="dropdown-item"><input class="toggle-vis" data-column="6" type="checkbox" checked> Total Dimensi</label>
+                <button type="button" class="btn btn-data-sec" id="btn-cetak" style="margin: 1em 0 0 0;">
+                    <i class="fa fa-file-excel-o"></i>
+                </button>
+                <div class="btn dropdown" >
+                    <button style="margin: 1em 0 0 0" class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-filter"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <label class="dropdown-item"><input class="toggle-vis" data-column="3" type="checkbox" checked> Nama Barang </label>
+                        <label class="dropdown-item"><input class="toggle-vis" data-column="4" type="checkbox" checked> Kategori</label>
+                        <label class="dropdown-item"><input class="toggle-vis" data-column="5" type="checkbox" checked> Berat Barang </label>
+                        <label class="dropdown-item"><input class="toggle-vis" data-column="6" type="checkbox" checked> Total Dimensi</label>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="table-responsive mt-2">
-        <table id="table" class="table stripe table-hover table-striped" style="width: 100%;">
-            <thead>
-                <tr class="tr-table">
-                    <th class="th-table" style="font-size: 12px;" >No</th>
-                    <th class="th-table" style="font-size: 12px;">Aksi</th>
-                    <th class="th-table" style="font-size: 12px;">Nama Barang</th>
-                    <th class="th-table" style="font-size: 12px;">Kategori</th>
-                    <th class="th-table" style="font-size: 12px;">Berat Barang</th>
-                    <th class="th-table" style="font-size: 12px;">Total Dimensi</th>
-                    <th class="th-table" style="font-size: 12px;">Jumlah Barang</th>
-                    
-                </tr>
-            </thead>
-            <tbody class="text-center">
-                <tr>
-                    <td colspan="99" class="text-center">Data Tidak Ditemukan</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive mt-2">
+            <table id="table" class="table stripe table-hover table-striped" style="width: 100%;">
+                <thead>
+                    <tr class="tr-table">
+                        <th class="th-table" style="font-size: 12px;" >No</th>
+                        <th class="th-table" style="font-size: 12px;">Aksi</th>
+                        <th class="th-table" style="font-size: 12px;">Nama Barang</th>
+                        <th class="th-table" style="font-size: 12px;">Kategori</th>
+                        <th class="th-table" style="font-size: 12px;">Berat Barang</th>
+                        <th class="th-table" style="font-size: 12px;">Total Dimensi</th>
+                        <th class="th-table" style="font-size: 12px;">Jumlah Barang</th>
+                        
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <tr>
+                        <td colspan="99" class="text-center">Data Tidak Ditemukan</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-  
 </div>
 
 <div class="modal fade bd-example-modal-lg " id="pop_up"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
