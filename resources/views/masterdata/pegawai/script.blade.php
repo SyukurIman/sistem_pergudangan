@@ -19,6 +19,20 @@
                 lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "Semua"] ],
                 destroy : true,
                 dom: 'Blfrtip',
+                buttons: [
+                    {
+                        extend: 'excel',
+                        title: '{{$title}} - ' + time,
+                        text: '<i class="fa fa-file-excel-o"></i> Cetak',
+                        titleAttr: 'Cetak',
+                        exportOptions: {
+                            columns: ':visible',
+                            modifier: {
+                                page: 'current'
+                            }
+                        }
+                    },
+                ],
                 'ajax': {
                     "url": "/data_pegawai",
                     "method": "POST",
