@@ -383,7 +383,7 @@ main .card .head .icon {
 main .card .head .icon.down {
 	color: var(--red);
 }
-main .card .progress {
+main .card .load {
 	display: block;
 	margin-top: 24px;
 	height: 10px;
@@ -394,7 +394,7 @@ main .card .progress {
 	position: relative;
 	margin-bottom: 4px;
 }
-main .card .progress::before {
+main .card .load::before {
 	content: '';
 	position: absolute;
 	top: 0;
@@ -579,7 +579,9 @@ main .btn-send:hover {
 }
 /* MAIN */
 /* CONTENT */
-
+.card{
+	border-radius: 20px;
+}
 
 
 
@@ -591,8 +593,50 @@ main .btn-send:hover {
 		width: calc(100% - 60px);
 		transition: all .3s ease;
 	}
-	nav .nav-link,
-	nav .divider {
+
+	#sidebar {
+		max-width: 60px;
+	}
+
+	#sidebar.hide {
+		display: none;
+	}
+	
+	#sidebar:hover {
+		max-width: 260px;
+	}
+
+	#sidebar .side-menu {
+		padding: 0 6px;
+	}
+
+	#sidebar:hover .side-menu {
+		padding: 0 20px;
+	}
+
+	#sidebar:hover .divider {
+		text-align: left;
+	}
+
+	#sidebar .divider {
+		text-align: center;
+	}
+	
+	#sidebar + #content {
+		width: calc(100% - 60px);
+		left: 60px;
+	}
+
+	#sidebar.hide + #content {
+		width: calc(100%);
+		left: 0px;
+	}
+	
+	nav {
+		grid-gap: 42%;
+	}
+
+	nav form {
 		display: none;
 	}
 }

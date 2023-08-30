@@ -1,64 +1,65 @@
      <!-- MAIN -->
      <div class="row col-md-12" style="margin-bottom: 1em;">
-        <div class="col text-left" style="margin: 1em 0 0 -1em;">
-        </div>
-        <div class="col text-right" style="margin: 0 -1em 0 0;">
+        <div class="col text-right" style="margin: 0 -3em 0 0;">
             <a href="/penempatan" type="button" class="btn btn-primary btn-data-sec">
                 <i class="fa fa-chevron-left"></i> <span>Kembali</span>
             </a>
         </div>
-         </div>
-        <div class="table-data">
-            <div class="todo">
+      </div>
+      <div class="card">
                 <form id="form-data" method="post" autocompleted="off" enctype="multipart/form-data">
                     {{csrf_field();}}
                     @if ($type=='create')
-                    <div class="form-group">
-                        <div class="row col-md-12">
+                    <div class="container">
+                        <div class="row col-md-12 mt-2">
                             <div class="col-md-12">
                                 @if ($type=='create'|| $type=='update')
-                                <button type="button"  class="btn btn-primary" id="tombol-scan-barang" data-toggle="modal" data-target="#scan_kamera_barang"><i class="fa fa-plus-square"></i> <span>Scan barang</span></button>
-                                <button type="button"  disabled id="tombol-scan-rak" class="btn btn-primary"  data-toggle="modal" data-target="#scan_kamera_rak"><i class="fa fa-plus-square"></i> <span>Scan rak</span></button>
+                                <button type="button"  class="btn btn-primary" id="tombol-scan-barang" data-toggle="modal" data-target="#scan_kamera_barang"><i class="fa fa-qrcode"></i> <span>Scan barang</span></button>
+                                <button type="button"  disabled id="tombol-scan-rak" class="btn btn-primary"  data-toggle="modal" data-target="#scan_kamera_rak"><i class="fa fa-qrcode"></i> <span>Scan rak</span></button>
                                 @endif
                             </div>
                         </div>
-                        <div class="row col-md-12">
-                            <div class="col-md-12">
-                              <div class="table-responsive">
-                                <table id="table_scan" class="table table-striped">
-                                    <thead>
-                                        <tr class="tr-table text-center">
-                                            <th class="th-table" style="font-size: 12px;"><input type="checkbox" class="center" id="checkAll" name="vehicle1"></th>
-                                            <th class="th-table" style="font-size: 12px;">Nama Barang</th>
-                                            <th class="th-table" style="font-size: 12px;">Kode Barang</th>
-                                            <th class="th-table" style="font-size: 12px;">Berat Barang</th>
-                                            <th class="th-table" style="font-size: 12px;">Kode Rak</th>
-                                            <th class="th-table" style="font-size: 12px;">Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="text-center">
-                                        <tr>
-                                            <td colspan="99" class="text-center">Scan Barang</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                      </div>
+                        <br>
+                      <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <div class="table-responsive">
+                                  <table id="table_scan" class="table table-striped">
+                                      <thead>
+                                          <tr class="tr-table text-center">
+                                              <th class="th-table" style="font-size: 12px;"><input type="checkbox" class="center" id="checkAll" name="vehicle1"></th>
+                                              <th class="th-table" style="font-size: 12px;">Nama Barang</th>
+                                              <th class="th-table" style="font-size: 12px;">Kode Barang</th>
+                                              <th class="th-table" style="font-size: 12px;">Berat Barang</th>
+                                              <th class="th-table" style="font-size: 12px;">Kode Rak</th>
+                                              <th class="th-table" style="font-size: 12px;">Aksi</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody class="text-center">
+                                          <tr>
+                                              <td colspan="99" class="text-center">Scan Barang</td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                              </div>
                             </div>
                         </div>
-                    </div>
+                      </div>  
                     @endif
                     @if($type != "lihat")
-                    <div class="form-group">
+                    <div class="container mt-3">
                         <div class="row col-md-12">
                             <div class="col-md-12">
                                 <button type="button" id="simpan" class="btn btn-primary btn-data">Simpan</button>
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <br>
                     @endif
                 </form>
-            </div>
-    </div>
+      </div>
 
 
 <!-- scan barang -->

@@ -3,10 +3,9 @@
         <i class="fa fa-plus-square"></i> <span>Tambah</span>
     </a>
 </div>
-<div class="table-data col p-0">
-<div class="w-full">
-    <div class="w-full sm:flex">
-        <h3 class="text-lg sm:text-xl">Data Pemindahan</h3>
+<div class="card mt-3">
+    <div class="card-body">
+        <h3 class="card-title">Data Pemindahan</h3>
         <div class="gap-4 justify-center col flex sm:justify-end">
             <button type="button" class="btn-data-sec" id="btn-muat-ulang" style="margin: 1em 0 0 0;">
                 <i class="fa fa-refresh"></i>
@@ -29,8 +28,7 @@
                 </div>
             </div>
         </div>
-    </div>
-<div class="table-responsive">
+<div class="table-responsive mt-2">
     <table id="table" class="table table-striped" >
         <thead>
             <tr class="tr-table">

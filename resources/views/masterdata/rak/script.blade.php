@@ -198,9 +198,8 @@
                 if(no == 0){
                     $('.card-siswa').html("");
                 }
-                html += `
+                html += `       <h5 >Data Rak ${no + 1}</h5>
                                 <div class="form-group mt-3 border-bottom">
-                                    <h5 >Data Rak ${no + 1}</h5>
                                     <div class="row col-md-15 mt-3">
                                         <div class="col-md-6 mt1">
                                              <label for="nama_rak[]" class="label1">nama rak</label><span class="required">*</span>
@@ -244,12 +243,9 @@
                                             <input  type="number" name="daya_tampung[]" class="form-control kegiatan" data-id="${no}">
                                             <p class="help-block" style="display: none;"></p>
                                         </div>
-                                     </div>
-                                     <div class="row col-md-15 justify-content-md-center">
-                                        <div class="col-md-12 mt-3 mb-2">
+                                    <div class="col-md-12 mt-3 mb-2">
                                                  <button style="width: 100%; height: 36px;" type="button" class="btn btn-danger btn-raised btn-xs btn-hapus-detail" title="Hapus"><i class="icon-trash"></i></button>
-                                         </div>
-                                     </div>
+                                    </div>
                                 </div>
                     `;
                 $('.card-siswa').append(html);

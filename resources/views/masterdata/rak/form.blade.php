@@ -9,12 +9,12 @@
         </div>
          </div>
          @if ($type=='create' || $type=='update' || $type=='lihat')
-        <div class="table-data">
-            <div class="todo">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Data sektor rak</h5>
                 <form id="form-data" method="post" autocompleted="off" enctype="multipart/form-data">
                     {{csrf_field();}}
                     <div class="form-group">
-                        <h5>Data sektor rak</h5>
                         <div class="row col-md-12">
                             <div class="col-md-6 mt1">
                                 <label for="nama_sektor" class="label1">nama sektor</label><span class="required">*</span>
@@ -48,11 +48,11 @@
                     <br>
                     @if ($type=='create')
                     <div class="form-group">
-                        <div class="row col-md-12">
+                        <div class="row-md-12">
                             <div class="col-md-12 card-siswa">
                                 <h5>Data Rak 1</h5>
                                 <div class="form-group mt-3 border-bottom">
-                                    <div class="row col-md-15 mt-3">
+                                    <div class="row col-md-15 mt-3 mb-2">
                                         <div class="col-md-6 mt1">
                                              <label for="nama_rak[]" class="label1">Nama Rak</label><span class="required">*</span>
                                              <input type="text" placeholder="Silahkan Masukkan Nomor Induk Siswa" name="nama_rak[]" class="form-control nama_rak" data-id="0" required>
@@ -113,9 +113,9 @@
                         <div class="row col-md-12">
                             <div class="col-md-12 card-siswa">
                                 @for ($i = 0; $i < $count; $i++)
+                                <h5 >Data Rak {{$i + 1}}</h5>
                                 <div class="form-group mt-3 border-bottom">
-                                    <h5 >Data Rak {{$i + 1}}</h5>
-                                    <div class="row col-md-15 mt-3 ">
+                                    <div class="row col-md-15 mt-3 mb-2">
                                         <div class="col-md-6 mt1">
                                             <label for="nama_rak[]" class="label1">Nama Rak</label><span class="required">*</span>
                                             <input type="hidden" name="id_rak[]" value="{{$rak[$i]->id_rak }}">
@@ -184,10 +184,11 @@
                     @endif
                 </form>
             </div>
+        </div>
             @endif
 @if($type == "delete")
-    <div class="table-data">
-        <div class="todo">
+    <div class="card">
+        <div class="card-body">
             <form id="form-data-delete" method="post" autocompleted="off" enctype="multipart/form-data">
                 {{csrf_field();}}
                 <div class="form-group">
@@ -196,10 +197,12 @@
                             <button type="button" id="tombol-scan-rak" class="btn btn-info"  data-toggle="modal"data-target="#scan_delete"><b>+</b>Scan rak</button>
                         </div>
                     </div>
+                </div>
+                <div class="container">
                     <div class="row col-md-12">
                         <div class="col-md-12">
                           <div class="table-responsive mt-2">
-                            <table id="table_scan" class="table stripe" style="width: 100%;">
+                            <table id="table_scan" class="table table-striped" style="width: 100%;">
                                 <thead>
                                     <tr class="tr-table ">
                                         <th class="th-table" style="font-size: 12px;">no</th>

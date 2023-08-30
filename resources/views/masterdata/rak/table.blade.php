@@ -7,9 +7,8 @@
         <i class="fa fa-trash"></i> <span>Delete</span>
     </a>
 </div>
-<div class="table-data col p-0">
-<div class="w-full">
-    <div class="w-full sm:flex">
+<div class="card mt-3">
+    <div class="card-body">
         <h3 class="text-lg sm:text-xl">Data Rak</h3>
         <div class="gap-4 justify-center col flex sm:justify-end">
             <button type="button" class="btn-data-sec" id="btn-muat-ulang" style="margin: 1em 0 0 0;">
@@ -32,30 +31,29 @@
                 </div>
             </div>
         </div>
+    <div class="table-responsive mt-2">
+        <table id="table" class="table stripe" style="width: 100%;">
+            <thead>
+                <tr class="tr-table">
+                    <th class="th-table" style="font-size: 12px;">No</th>
+                    <th class="th-table" style="font-size: 12px;">Aksi</th>
+                    <th class="th-table" style="font-size: 12px;"><input type="checkbox" class="center" id="checkAll"></th>
+                    <th class="th-table" style="font-size: 12px;">rak</th>
+                    <th class="th-table" style="font-size: 12px;">kode rak</th>
+                    <th class="th-table" style="font-size: 12px;">kode sektor</th>
+                    <th class="th-table" style="font-size: 12px;">tipe</th>
+                    <th class="th-table" style="font-size: 12px;">dimensi</th>
+                    <th class="th-table" style="font-size: 12px;">daya tampung</th>
+                    <th class="th-table" style="font-size: 12px;">kapasitas</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                <tr>
+                    <td colspan="99" class="text-center">Data Tidak Ditemukan</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-<div class="table-responsive mt-2">
-    <table id="table" class="table stripe" style="width: 100%;">
-        <thead>
-            <tr class="tr-table">
-                <th class="th-table" style="font-size: 12px;">No</th>
-                <th class="th-table" style="font-size: 12px;">Aksi</th>
-                <th class="th-table" style="font-size: 12px;"><input type="checkbox" class="center" id="checkAll"></th>
-                <th class="th-table" style="font-size: 12px;">rak</th>
-                <th class="th-table" style="font-size: 12px;">kode rak</th>
-                <th class="th-table" style="font-size: 12px;">kode sektor</th>
-                <th class="th-table" style="font-size: 12px;">tipe</th>
-                <th class="th-table" style="font-size: 12px;">dimensi</th>
-                <th class="th-table" style="font-size: 12px;">daya tampung</th>
-                <th class="th-table" style="font-size: 12px;">kapasitas</th>
-            </tr>
-        </thead>
-        <tbody class="text-center">
-            <tr>
-                <td colspan="99" class="text-center">Data Tidak Ditemukan</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
 </div>
 </div>
 
