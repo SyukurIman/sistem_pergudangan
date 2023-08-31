@@ -54,7 +54,7 @@
 
             <div class="form-group">
                 <div class="col-md-12">
-                    <input type="submit" class="btn btn-primary btn-data " value="Submit">
+                    <input type="submit" class="mt-3"  value="Submit">
                 </div>
             </div>
         </form>

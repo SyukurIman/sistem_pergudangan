@@ -705,13 +705,15 @@
                 if (data == 'data_trash'){
                     table_restore();
                     $(this).data('id', 'data_biasa')
-                    $(this).html('Data Normal')
-                    $('#btn_restore').attr('style', 'display:block;')
+                    $(this).html('<i class="bi bi-box2-fill"></i> <span>List Barang</span>')
+                    $('#btn_restore').attr('style', '')
+                    $('#title_list').html('List Barang Di Hapus')
                 } else {
                     table();
                     $(this).data('id', 'data_trash')
-                    $(this).html('Data Dihapus')
+                    $(this).html('<i class="bi bi-trash-fill"></i> <span>List Dihapus</span>')
                     $('#btn_restore').attr('style', 'display:none;')
+                    $('#title_list').html('List Barang ')
                 }
             })
         }

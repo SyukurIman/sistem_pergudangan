@@ -1,12 +1,8 @@
 
 <div class="row col-md-12" style="margin-bottom: 1em;">
     <div class="col text-left" style="margin: 1em 0 0 -1em;">
-        <button id="ubah_data_barang" data-id="data_trash" class="btn btn-primary btn-data"><i class="bi bi-trash-fill"></i> List Dihapus</button>
-        
-    </div>
-    <div class="col text-left" style="margin: 1em 0 0 -1em;">
-        <button id="btn_restore" style="display: none" class="btn btn-primary btn-data">Restore All</button>
-    
+        <button id="ubah_data_barang" data-id="data_trash" class="btn btn-primary btn-data"><i class="bi bi-trash-fill"></i> <span>List Dihapus</span></button>
+        <button id="btn_restore" style="display: none" class="btn btn-primary btn-data"><i class="bi bi-arrow-up-circle-fill"></i> <span>Restore All</span></button>
     </div>
     <div class="col text-right" style="margin: 0 -3em 0 0;">
         <a href="/barang" type="button" class="btn btn-primary btn-data" id="btn-create" style="margin: 1em 0 0 0;">
@@ -18,7 +14,7 @@
 <div class="card mt-3">
     <div class="card-body">
         <div class="row col">
-            <h3 class="text-lg sm:text-xl col-md-6">List Barang </h3>
+            <h3 class="text-lg sm:text-xl col-md-6" id="title_list">List Barang </h3>
             <div class="gap-4 justify-end col flex sm:justify-end">
                 <button type="button" class="btn btn-data-sec" id="btn-muat-ulang" style="margin: 1em 0 0 0;">
                     <i class="fa fa-refresh"></i>
