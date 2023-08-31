@@ -346,7 +346,7 @@
             @if($type == "barang_masuk")
                 // var scanner = new Instascan.Scanner({ video: document.getElementById('qr-reader'), scanPeriod: 5, mirror: false });
                 $("#tombol-scan-barang").on('click', function(){
-                    let scanner = new Instascan.Scanner({ video: document.getElementById('qr-reader') });
+                    let scanner = new Instascan.Scanner({ video: document.getElementById('qr-reader'), mirror: false });
                 
                     scanner.addListener('scan', function (content) {
                         $.ajax({
@@ -418,7 +418,7 @@
 
             @elseif($type == "barang_keluar")
                 $("#tombol-scan-barang").on('click', function(){
-                    let scanner = new Instascan.Scanner({ video: document.getElementById('qr-reader') });
+                    let scanner = new Instascan.Scanner({ video: document.getElementById('qr-reader'), mirror: false });
                 
                     scanner.addListener('scan', function (content) {
                         $.ajax({
