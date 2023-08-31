@@ -62,8 +62,8 @@ class BarangController extends Controller
                 $btn .= '<div class="text-center">';
                 $btn .= '<div class="btn-group btn-group-solid mx-5">';
                 $btn .= '<button class="btn btn-secondary btn-raised btn-xs" id="btn-generate" title="Generate"><i class="icon-camera"></i></button>';
-                $btn .= '<a class="btn btn-warning mx-1" href="/admin/barang/list_barang/'.$row->id.'"><i class="icon-user"></i></a> ';
-                $btn .= '<a class="btn btn-warning mx-1" href="/admin/update_barang/'.$row->id.'"><i class="icon-edit"></i></a> ';
+                $btn .= '<a class="btn btn-warning mx-1" href="/barang/list_barang/'.$row->id.'"><i class="icon-user"></i></a> ';
+                $btn .= '<a class="btn btn-warning mx-1" href="/barang/update_barang/'.$row->id.'"><i class="icon-edit"></i></a> ';
                 $btn .= '<button class="btn btn-danger btn-raised btn-xs" id="btn-hapus" title="Hapus"><i class="icon-trash"></i></button>';
                 $btn .= '</div>';    
                 $btn .= '</div>';
@@ -80,7 +80,7 @@ class BarangController extends Controller
                 $btn = '';
                 $btn .= '<div class="text-center">';
                 $btn .= '<div class="btn-group btn-group-solid mx-5">';
-                $btn .= '<a class="btn btn-warning mx-1" href="/admin/barang/dimensi/edit/'.$row->id.'"><i class="icon-edit"></i></a> ';
+                $btn .= '<a class="btn btn-warning mx-1" href="/barang/dimensi/edit/'.$row->id.'"><i class="icon-edit"></i></a> ';
                 $btn .= '<button class="btn btn-danger btn-raised btn-xs" id="btn-hapus" title="Hapus"><i class="icon-trash"></i></button>';
                 $btn .= '</div>';    
                 $btn .= '</div>';
@@ -97,7 +97,7 @@ class BarangController extends Controller
                 $btn = '';
                 $btn .= '<div class="text-center">';
                 $btn .= '<div class="btn-group btn-group-solid mx-5">';
-                $btn .= '<a class="btn btn-warning mx-1" href="/admin/barang/kategori/edit/'.$row->id.'"><i class="icon-edit"></i></a> ';
+                $btn .= '<a class="btn btn-warning mx-1" href="/barang/kategori/edit/'.$row->id.'"><i class="icon-edit"></i></a> ';
                 $btn .= '<button class="btn btn-danger btn-raised btn-xs" id="btn-hapus" title="Hapus"><i class="icon-trash"></i></button>';
                 $btn .= '</div>';    
                 $btn .= '</div>';
@@ -142,9 +142,9 @@ class BarangController extends Controller
         ]);
 
         if ($new_barang) {
-            return redirect()->intended('/admin/barang')->with('msg', 'Data Barang Berhasil Di Tambahkan');;
+            return redirect()->intended('/barang')->with('msg', 'Data Barang Berhasil Di Tambahkan');;
         } else {
-            return redirect()->intended('/admin/barang/add')->with('msg', 'Data Barang Tidak Berhasil Di Tambahkan');;
+            return redirect()->intended('/barang/add')->with('msg', 'Data Barang Tidak Berhasil Di Tambahkan');;
         }
     }
 
@@ -167,9 +167,9 @@ class BarangController extends Controller
         ]);
 
         if ($new_dimensi_barang) {
-            return redirect()->intended('/admin/barang/add')->with('msg', 'Data Barang Berhasil Di Tambahkan');;
+            return redirect()->intended('/barang/add')->with('msg', 'Data Barang Berhasil Di Tambahkan');;
         } else {
-            return redirect()->intended('/admin/barang/dimensi/add')->with('msg', 'Data Barang Tidak Berhasil Di Tambahkan');;
+            return redirect()->intended('/barang/dimensi/add')->with('msg', 'Data Barang Tidak Berhasil Di Tambahkan');;
         }
     }
 
@@ -184,9 +184,9 @@ class BarangController extends Controller
         ]);
 
         if ($new_kategori_barang) {
-            return redirect()->intended('/admin/barang/add')->with('msg', 'Data Barang Berhasil Di Tambahkan');;
+            return redirect()->intended('/barang/add')->with('msg', 'Data Barang Berhasil Di Tambahkan');;
         } else {
-            return redirect()->intended('/admin/barang/kategori/add')->with('msg', 'Data Barang Tidak Berhasil Di Tambahkan');;
+            return redirect()->intended('/barang/kategori/add')->with('msg', 'Data Barang Tidak Berhasil Di Tambahkan');;
         }
     }
 

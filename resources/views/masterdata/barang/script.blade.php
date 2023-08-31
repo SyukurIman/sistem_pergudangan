@@ -430,7 +430,7 @@
             kode = id_data+'_'+kode+'_'+time;
 
             $.ajax({
-                url : "/admin/barang/genertae_qr/"+kode,
+                url : "/barang/genertae_qr/"+kode,
                 type : "POST",
                 dataType: "html",
                 contentType: false,

@@ -1,8 +1,8 @@
 <div class="col text-right" style="margin: 0 -3em 0 0;">
-    <a href="/admin/barang/dimensi/add" type="button" class="btn btn-primary btn-data" id="btn-create" style="margin: 1em 0 0 0;">
+    <a href="/barang/dimensi/add" type="button" class="btn btn-primary btn-data" id="btn-create" style="margin: 1em 0 0 0;">
         <i class="fa fa-plus-square"></i> <span>Tambah</span>
     </a>
-    <a href="/admin/barang" type="button" class="btn btn-primary btn-data-sec" style="margin: 1em 0 0 0;">
+    <a href="/barang" type="button" class="btn btn-primary btn-data-sec" style="margin: 1em 0 0 0;">
         <i class="fa fa-chevron-left"></i> <span>Kembali</span>
     </a>
 </div>

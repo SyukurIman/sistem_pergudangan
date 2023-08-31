@@ -127,7 +127,7 @@ class UserController extends Controller
                             [ 'username' => $request->username,]
                         );
                         if ($request->password != "") {
-                            User::where('id', $request->id_user)
+                            User::where('id', $id)
                                 ->update([
                                     'password' => Hash::make($request->password),
                                 ]);

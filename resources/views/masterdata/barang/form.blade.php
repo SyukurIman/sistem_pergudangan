@@ -3,7 +3,7 @@
     <div class="col text-left" style="margin: 1em 0 0 -1em;">
     </div>
     <div class="col text-right" style="margin: 0 -3em 0 0;">
-        <a href="/admin/barang" type="button" class="btn btn-primary btn-data-sec">
+        <a href="/barang" type="button" class="btn btn-primary btn-data-sec">
             <i class="fa fa-chevron-left"></i> <span>Kembali</span>
         </a>
     </div>
@@ -36,7 +36,7 @@
                                 @endforeach
                             @endif
                         </select>
-                        <a href="/admin/barang/dimensi/add">Add Dimensi</a>
+                        <a href="/barang/dimensi/add">Add Dimensi</a>
                     </div>
 
                     <div class="col-md-6 mt1">
@@ -60,7 +60,7 @@
                             @endif
                         </select>
                         
-                        <a href="/admin/barang/kategori/add">Add Kategori</a>
+                        <a href="/barang/kategori/add">Add Kategori</a>
                     </div>
                 </div>
             </div>

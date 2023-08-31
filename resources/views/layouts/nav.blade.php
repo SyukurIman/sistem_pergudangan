@@ -13,8 +13,9 @@
 			<li>
 				<a href="#"><i class='bx bxs-inbox icon' ></i> Master Data <i class='bx bx-chevron-right icon-right' ></i></a>
 				<ul class="side-dropdown">
+					<li><a href="/admin/user">Akun User</a></li>
 					<li><a href="/admin/pegawai">Pegawai</a></li>
-					<li><a href="/admin/barang">Barang</a></li>
+					<li><a href="/barang">Barang</a></li>
 					<li><a href="/rak">Rak</a></li>
 					
 				</ul>
@@ -22,8 +23,8 @@
 			<li>
 				<a href="#"><i class='bx bx-table icon' ></i> transaksi <i class='bx bx-chevron-right icon-right' ></i></a>
 				<ul class="side-dropdown">
-					<li><a href="/admin/barang/in">Barang masuk</a></li>
-					<li><a href="/admin/barang/out">Barang keluar</a></li>
+					<li><a href="/barang/in">Barang masuk</a></li>
+					<li><a href="/barang/out">Barang keluar</a></li>
 					
 				</ul>
 			</li>

@@ -2,15 +2,15 @@
 
 <div class="row col-md-12" style="margin-bottom: 1em;">
     <div class="col text-left" style="margin: 1em 0 0 -1em;">
-        <a href="/admin/barang/kategori" type="button" class="btn btn-primary btn-data" id="btn-create" style="margin: 1em 0 0 0;">
+        <a href="/barang/kategori" type="button" class="btn btn-primary btn-data" id="btn-create" style="margin: 1em 0 0 0;">
             <i class="bi bi-tag-fill"></i> <span>Kategori</span>
         </a>
-        <a href="/admin/barang/dimensi" type="button" class="btn btn-primary btn-data" id="btn-create" style="margin: 1em 0 0 0;">
+        <a href="/barang/dimensi" type="button" class="btn btn-primary btn-data" id="btn-create" style="margin: 1em 0 0 0;">
             <i class="bi bi-box-seam-fill"></i> <span>Dimensi</span>
         </a>
     </div>
     <div class="col text-right" style="margin: 0 -3em 0 0;">
-        <a href="/admin/barang/add" type="button" class="btn btn-primary btn-data" id="btn-create" style="margin: 1em 0 0 0;">
+        <a href="/barang/add" type="button" class="btn btn-primary btn-data" id="btn-create" style="margin: 1em 0 0 0;">
             <i class="fa fa-plus-square"></i> <span>Tambah</span>
         </a>
     </div>
