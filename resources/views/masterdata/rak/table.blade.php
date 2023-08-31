@@ -11,14 +11,14 @@
     <div class="card-body">
         <h3 class="text-lg sm:text-xl">Data Rak</h3>
         <div class="gap-4 justify-center col flex sm:justify-end">
-            <button type="button" class="btn-data-sec" id="btn-muat-ulang" style="margin: 1em 0 0 0;">
+            <button type="button" class="btn btn-data-sec" id="btn-muat-ulang" style="margin: 1em 0 0 0;">
                 <i class="fa fa-refresh"></i>
             </button>
-            <button type="button" class=" btn-data-sec" id="btn-cetak" style="margin: 1em 0 0 0;">
+            <button type="button" class="btn btn-data-sec" id="btn-cetak" style="margin: 1em 0 0 0;">
                 <i class="fa fa-file-excel-o"></i>
             </button>
-            <div class="dropdown" >
-                <button style="margin: 1em 0 0 0" class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+            <div class="btn dropdown" >
+                <button style="margin: 1em 0 0 0" class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-filter"></i>
                 </button>
                 <div class="dropdown-menu">
