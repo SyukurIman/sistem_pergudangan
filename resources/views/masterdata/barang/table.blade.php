@@ -18,9 +18,11 @@
 
 <div class="card mt-3">
     <div class="card-body">
-        <div class="row col">
-            <h3 class="text-lg sm:text-xl col-md-6">Data Barang</h3>
-            <div class="gap-4 justify-end col flex sm:justify-end">
+         <div class="row">
+            <div class="col-6">
+                <h3 class="card-title">Data Barang</h3>
+            </div>
+            <div class="col-6 text-right">
                 <button type="button" class="btn btn-data-sec" id="btn-muat-ulang" style="margin: 1em 0 0 0;">
                     <i class="fa fa-refresh"></i>
                 </button>
@@ -39,8 +41,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-
+         </div>
         <div class="table-responsive mt-2">
             <table id="table" class="table stripe table-hover table-striped" style="width: 100%;">
                 <thead>
