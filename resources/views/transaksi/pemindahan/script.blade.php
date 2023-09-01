@@ -377,7 +377,8 @@
                                 for (var i = 0; i < id_kode_rak.length; i++) {
                                 var kodeRakElement = id_kode_rak[i];
                                 $("#" + kodeRakElement).val(contentRak);
-                                $("#" + kodeRakElement).parent().html(contentRak);
+                                $("#" + kodeRakElement).parent().html(contentRak+` <input value="`+contentRak+`" type="hidden" name="kode_rak[]" class="form-control kode_rak border-0" id="kode_rak`+i+`" style="background:none;" placeholder="otomatis" readonly required>
+                                                                    <p class="help-block" style="display: none;"></p>`);
                                 }
                                 Swal.fire({
                                 position: 'center',
