@@ -13,8 +13,11 @@
 			<li>
 				<a href="#"><i class='bx bxs-inbox icon' ></i> Master Data <i class='bx bx-chevron-right icon-right' ></i></a>
 				<ul class="side-dropdown">
-					<li><a href="/admin/user">Akun User</a></li>
-					<li><a href="/admin/pegawai">Pegawai</a></li>
+					@if (Auth::user()->status_id == '0')
+						<li><a href="/admin/user">Akun User</a></li>
+						<li><a href="/admin/pegawai">Pegawai</a></li>
+					@endif
+					
 					<li><a href="/barang">Barang</a></li>
 					<li><a href="/rak">Rak</a></li>
 					
