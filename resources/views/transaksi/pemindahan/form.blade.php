@@ -73,7 +73,8 @@
           </button>
         </div>
         <div class="modal-body">
-            <video id="qr-reader-barang" style="width: 100%"></video>
+            <div id="qr-reader-barang" style="width: 100%"></div>
+            {{-- <video id="qr-reader-barang" style="width: 100%"></video> --}}
             <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
               <label class="btn btn-primary active">
                 <input type="radio" name="options" value="1" autocomplete="off" checked> Front Camera
@@ -100,7 +101,8 @@
           </button>
         </div>
         <div class="modal-body">
-            <video id="qr-reader-rak" style="width: 100%"></video>
+            <div id="qr-reader-rak" style="width: 100%"></div>
+            {{-- <video id="qr-reader-rak" style="width: 100%"></video> --}}
             <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
               <label class="btn btn-primary active">
                 <input type="radio" name="options_r" value="1" autocomplete="off" checked> Front Camera

@@ -1,5 +1,5 @@
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js" rel="nofollow"></script>
+{{-- <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js" rel="nofollow"></script> --}}
 
 <script>
     var data = function () {
@@ -135,71 +135,46 @@
             });
         }
         @if($type == "create")
-        var scanQrCode = function(){
-            $("#tombol-scan-barang").on('click', function(){
+            
+            var scanQrCode = function(){
+                const config = { fps: 1, qrbox: { width: 250, height: 250 }, mirror: false};
+                const html5QrCode = new Html5Qrcode("qr-reader-barang");
+
                 var audioElement = document.createElement('audio');
                 audioElement.setAttribute('src', 'https://www.soundjay.com/buttons/button-3.wav');
 
-                let scanner = new Instascan.Scanner({ video: document.getElementById('qr-reader-barang'),  mirror: false });
-                Instascan.Camera.getCameras().then(function (cameras) {
-                    if (cameras.length > 0) {
-                        scanner.start(cameras[0]);
-                        $('[name="options"]').on('change',function(){
-                            if($(this).val()==1){
-                                if(cameras[0]!=""){
-                                    scanner.start(cameras[0]);
-                                }else{
-                                    alert('No Front camera found!');
-                                }
-                            }else if($(this).val()==2){
-                                if(cameras[1]!=""){
-                                    scanner.start(cameras[1]);
-                                }else{
-                                    alert('No Back camera found!');
-                                }
+                const qrCodeSuccessCallback = (content, decodedResult) => {
+                    const firstLetter = content.charAt(0);
+                    if(firstLetter === 'R'){
+                        Swal.fire({
+                        position: 'center',
+                        icon: 'warning',
+                        title: 'Qr Code Salah',
+                        showConfirmButton: false,
+                        timer: 1500
+                        })
+                    }else{
+                        var highestDataId = 0;
+                        $('.nama_barang').each(function() {
+                            var dataId = $(this).data('id');
+                            if (dataId > highestDataId) {
+                                highestDataId = dataId;
                             }
                         });
-                    } else {
-                        console.error('No cameras found.');
-                    }
-                }).catch(function (e) {
-                    console.error(e);
-                });
-                var scannerListenerAdded = false;
-                $('#scan_kamera_barang').on('shown.bs.modal', function () {
-                    if (!scannerListenerAdded) {
-                    scanner.addListener('scan', function (content) {
-                        const firstLetter = content.charAt(0);
-                        if(firstLetter === 'R'){
-                            Swal.fire({
-                            position: 'center',
-                            icon: 'warning',
-                            title: 'Qr Code Salah',
-                            showConfirmButton: false,
-                            timer: 1500
-                            })
-                        }else{
-                            var highestDataId = 0;
-                            $('.nama_barang').each(function() {
-                                var dataId = $(this).data('id');
-                                if (dataId > highestDataId) {
-                                    highestDataId = dataId;
-                                }
-                            });
-                            var no = highestDataId > 0 ? highestDataId + 1 : 1;
-                            // Tambahkan 1 untuk mendapatkan nomor berikutnya
-                            if(no == 1){
-                                $('#table_scan tbody').html("");
+                        var no = highestDataId > 0 ? highestDataId + 1 : 1;
+                        // Tambahkan 1 untuk mendapatkan nomor berikutnya
+                        if(no == 1){
+                            $('#table_scan tbody').html("");
+                        }
+                        var contentFound = false;
+                        var cekBarangPenempatan=[];
+                            @foreach ($cek_penempatan as $c)
+                                cekBarangPenempatan.push('{{$c->kode_barang}}');
+                            @endforeach
+                            if(!cekBarangPenempatan.includes(content)){
+                                    contentFound = true;
                             }
-                                var contentFound = false;
-                                var cekBarangPenempatan=[];
-                                @foreach ($cek_penempatan as $c)
-                                    cekBarangPenempatan.push('{{$c->kode_barang}}');
-                                @endforeach
-                                   if(!cekBarangPenempatan.includes(content)){
-                                        contentFound = true;
-                                   }
-                            if(contentFound){ 
+                        if(contentFound){ 
                             if (!scannedContents.includes(content)) {
                                 scannedContents.push(content); 
                                 @if(isset($barang_scan))
@@ -233,7 +208,7 @@
                                         `;
                                     $('#table_scan tbody').append(html);
                                     deleteRow();     
-                                   
+                                
                                         Swal.fire({
                                         position: 'center',
                                         icon: 'success',
@@ -264,56 +239,180 @@
                             timer: 1500
                             })
                         }
-                               
+                        
+                    }
+                    audioElement.play();
+                }
+
+                $('[name="options"]').on('change',function(){
+                    console.log('Ubah')
+                    html5QrCode.stop()
+                    setTimeout(() => {
+                        if($(this).val()==1){
+                            html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+                        } else if($(this).val()==2){
+                            html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
                         }
-                        audioElement.play();
-                    });
-                }
+                    }, 100);
+                })
 
-               
-            }); 
-            $('#scan_kamera_barang').on('hidden.bs.modal', function() {
-                if (scanner) {
-                    scanner.stop();
-                }
-            });
-        })
-        }
+                $("#tombol-scan-barang").on('click', function(){
+                    
+                    // let scanner = new Instascan.Scanner({ video: document.getElementById('qr-reader-barang'),  mirror: false });
+                    // Instascan.Camera.getCameras().then(function (cameras) {
+                    //     if (cameras.length > 0) {
+                    //         scanner.start(cameras[0]);
+                    //         $('[name="options"]').on('change',function(){
+                    //             if($(this).val()==1){
+                    //                 if(cameras[0]!=""){
+                    //                     scanner.start(cameras[0]);
+                    //                 }else{
+                    //                     alert('No Front camera found!');
+                    //                 }
+                    //             }else if($(this).val()==2){
+                    //                 if(cameras[1]!=""){
+                    //                     scanner.start(cameras[1]);
+                    //                 }else{
+                    //                     alert('No Back camera found!');
+                    //                 }
+                    //             }
+                    //         });
+                    //     } else {
+                    //         console.error('No cameras found.');
+                    //     }
+                    // }).catch(function (e) {
+                    //     console.error(e);
+                    // });
 
-        var scanQrCodeRak = function(){
-            $("#tombol-scan-rak").on('click', function(){
+                    
+
+                    var scannerListenerAdded = false;
+                    if (!scannerListenerAdded) {
+                    }
+                    html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+                    
+                    $('#scan_kamera_barang').on('shown.bs.modal', function () {
+                        if (!scannerListenerAdded) {
+                            // scanner.addListener('scan', function (content) {
+                            //     const firstLetter = content.charAt(0);
+                            //     if(firstLetter === 'R'){
+                            //         Swal.fire({
+                            //         position: 'center',
+                            //         icon: 'warning',
+                            //         title: 'Qr Code Salah',
+                            //         showConfirmButton: false,
+                            //         timer: 1500
+                            //         })
+                            //     }else{
+                            //         var highestDataId = 0;
+                            //         $('.nama_barang').each(function() {
+                            //             var dataId = $(this).data('id');
+                            //             if (dataId > highestDataId) {
+                            //                 highestDataId = dataId;
+                            //             }
+                            //         });
+                            //         var no = highestDataId > 0 ? highestDataId + 1 : 1;
+                            //         // Tambahkan 1 untuk mendapatkan nomor berikutnya
+                            //         if(no == 1){
+                            //             $('#table_scan tbody').html("");
+                            //         }
+                            //         var contentFound = false;
+                            //         var cekBarangPenempatan=[];
+                            //             @foreach ($cek_penempatan as $c)
+                            //                 cekBarangPenempatan.push('{{$c->kode_barang}}');
+                            //             @endforeach
+                            //             if(!cekBarangPenempatan.includes(content)){
+                            //                     contentFound = true;
+                            //             }
+                            //         if(contentFound){ 
+                            //             if (!scannedContents.includes(content)) {
+                            //                 scannedContents.push(content); 
+                            //                 @if(isset($barang_scan))
+                            //                     var html = "";
+                            //                     @foreach ($barang_scan as $i)
+                            //                         if('{{$i->kode_barang}}'=== content){
+                            //                             html += `<tr>
+                            //                                             <td>
+                            //                                                 <input type="checkbox" class="check-barang" name="${content}" value="kode_rak${no}">
+                            //                                             </td>
+                            //                                             <td>{{$i->barang->nama_barang}}
+                            //                                                 <input type="hidden" name="nama_barang[]" class="form-control nama_barang border-0" style="background:none;" data-id="${no}" value="{{$i->barang->nama_barang}}" readonly required>
+                            //                                                 <p class="help-block" style="display: none;"></p>
+                            //                                             </td>
+                            //                                             <td>${content}
+                            //                                                 <input type="hidden" name="kode_barang[]" class="form-control kode_barang${no} border-0" data-id="${no}" value="${content}" placeholder="Scan Rak" style="background:none;" readonly required>
+                            //                                                 <p class="help-block" style="display: none;"></p>
+                            //                                             </td>
+                            //                                             <td>{{$i->barang->berat_barang}} kg
+                            //                                                 <input type="hidden" class="form-control border-0" data-id="${no}" value="{{$i->barang->berat_barang}} kg" style="background:none;" readonly required>
+                            //                                                 <p class="help-block" style="display: none;"></p>
+                            //                                             </td>
+                            //                                             <td>
+                            //                                                 <input type="hidden" name="kode_rak[]" class="form-control kode_rak border-0" id="kode_rak${no}" style="background:none;" placeholder="otomatis" readonly required>
+                            //                                                 <p class="help-block" style="display: none;"></p>
+                            //                                             </td>
+                            //                                             <td>
+                            //                                                 <button style="width: 100%; height: 36px;" type="button" class="btn btn-danger btn-raised btn-xs btn-hapus-detail" data-id="${no}" title="Hapus"><i class="icon-trash"></i></button>
+                            //                                             </td>
+                            //                                 </tr>
+                            //                         `;
+                            //                     $('#table_scan tbody').append(html);
+                            //                     deleteRow();     
+                                            
+                            //                         Swal.fire({
+                            //                         position: 'center',
+                            //                         icon: 'success',
+                            //                         title: 'Scan Barang Berhasil',
+                            //                         showConfirmButton: false,
+                            //                         timer: 1500
+                            //                         })
+                            //                     }
+                            //                             @endforeach
+                            //                         @endif
+
+                            //                     scannerListenerAdded = true;
+                            //             } else {
+                            //                 Swal.fire({
+                            //                     position: 'center',
+                            //                     icon: 'warning',
+                            //                     title: 'barang sudah terinput',
+                            //                     showConfirmButton: false,
+                            //                     timer: 2000
+                            //                 })
+                            //             }
+                            //         }else{
+                            //             Swal.fire({
+                            //             position: 'center',
+                            //             icon: 'warning',
+                            //             title: 'Barang Sudah Ada Dirak',
+                            //             showConfirmButton: false,
+                            //             timer: 1500
+                            //             })
+                            //         }
+                                    
+                            //     }
+                            //     audioElement.play();
+                            // });
+                        }
+                    }); 
+
+                    
+                })
+                
+                $('#scan_kamera_barang').on('hidden.bs.modal', function() {
+                    if (html5QrCode) {
+                        html5QrCode.stop();
+                    }
+                });
+            }
+
+            var scanQrCodeRak = function(){
+                const config = { fps: 1, qrbox: { width: 250, height: 250 }, mirror: false};
+                const html5QrCode_R = new Html5Qrcode("qr-reader-rak");
                 var audioElement = document.createElement('audio');
                 audioElement.setAttribute('src', 'https://www.soundjay.com/buttons/button-3.wav');
 
-                let scanner_rak = new Instascan.Scanner({ video: document.getElementById('qr-reader-rak'),  mirror: false });
-                Instascan.Camera.getCameras().then(function (cameras) {
-                    if (cameras.length > 0) {
-                        scanner_rak.start(cameras[0]);
-                        $('[name="options_r"]').on('change',function(){
-                            if($(this).val()==1){
-                                if(cameras[0]!=""){
-                                    scanner_rak.start(cameras[0]);
-                                }else{
-                                    alert('No Front camera found!');
-                                }
-                            }else if($(this).val()==2){
-                                if(cameras[1]!=""){
-                                    scanner_rak.start(cameras[1]);
-                                }else{
-                                    alert('No Back camera found!');
-                                }
-                            }
-                        });
-                    } else {
-                        console.error('No cameras found.');
-                    }
-                }).catch(function (e) {
-                    console.error(e);
-                });
-                var scannerListenerRak = false;
-                $('#scan_kamera_rak').on('shown.bs.modal', function () {
-                if (!scannerListenerRak) {
-                scanner_rak.addListener('scan', function (contentRak) {
+                const qrCodeSuccessCallback = (contentRak, decodedResult) => {
                     const firstLetterR = contentRak.charAt(0);
                     if(firstLetterR === 'R'){
                         @foreach ($rak as $c)
@@ -374,42 +473,171 @@
                             timer: 1500
                             })
                         }
- 
+
                     }else{
-                            Swal.fire({
-                            position: 'center',
-                            icon: 'warning',
-                            title: 'Qr Code Salah',
-                            showConfirmButton: false,
-                            timer: 1500
-                            })
-                        }
-                        scannerListenerRak = true;
-                        audioElement.play();
-                 });
+                        Swal.fire({
+                        position: 'center',
+                        icon: 'warning',
+                        title: 'Qr Code Salah',
+                        showConfirmButton: false,
+                        timer: 1500
+                        })
+                    }
+                    scannerListenerRak = true;
+                    audioElement.play();
                 }
-            });
-            $('#scan_kamera_rak').on('hidden.bs.modal', function() {
-                    if (scanner_rak) {
-                         scanner_rak.stop();
-                     }
-            });
-        })
+
+                $('[name="options_r"]').on('change',function(){
+                    console.log('Ubah')
+                    html5QrCode_R.stop()
+                    setTimeout(() => {
+                        if($(this).val()==1){
+                            html5QrCode_R.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+                        } else if($(this).val()==2){
+                            html5QrCode_R.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+                        }
+                    }, 100);
+                })
+
+                $("#tombol-scan-rak").on('click', function(){
+                    
+                    // let scanner_rak = new Instascan.Scanner({ video: document.getElementById('qr-reader-rak'),  mirror: false });
+                    // Instascan.Camera.getCameras().then(function (cameras) {
+                    //     if (cameras.length > 0) {
+                    //         scanner_rak.start(cameras[0]);
+                    //         $('[name="options_r"]').on('change',function(){
+                    //             if($(this).val()==1){
+                    //                 if(cameras[0]!=""){
+                    //                     scanner_rak.start(cameras[0]);
+                    //                 }else{
+                    //                     alert('No Front camera found!');
+                    //                 }
+                    //             }else if($(this).val()==2){
+                    //                 if(cameras[1]!=""){
+                    //                     scanner_rak.start(cameras[1]);
+                    //                 }else{
+                    //                     alert('No Back camera found!');
+                    //                 }
+                    //             }
+                    //         });
+                    //     } else {
+                    //         console.error('No cameras found.');
+                    //     }
+                    // }).catch(function (e) {
+                    //     console.error(e);
+                    // });
+
+                   
+
+                   
+
+                    var scannerListenerRak = false;
+                    if (!scannerListenerRak) {
+                        html5QrCode_R.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+                    }      
+                    $('#scan_kamera_rak').on('shown.bs.modal', function () {
+                        if (!scannerListenerRak) {
+                            // scanner_rak.addListener('scan', function (contentRak) {
+                            //     const firstLetterR = contentRak.charAt(0);
+                            //     if(firstLetterR === 'R'){
+                            //         @foreach ($rak as $c)
+                            //             if('{{$c->kode_rak}}' == contentRak){
+                            //                 var dayaTampung = '{{$c->daya_tampung}}';
+                            //             }
+                            //         @endforeach
+                            //         var beratTotal =0;
+                            //         var idBarang = [];
+                            //         @foreach ($cek_penempatan as $k)
+                            //             if('{{$k->rak->kode_rak}}' == contentRak){
+                            //                 idBarang.push('{{$k->anggotabarang->id_barang}}');
+                            //             }
+                            //         @endforeach
+                            //         for (var i = 0; i < idBarang.length; i++) {
+                            //             var barangid = idBarang[i];
+                            //             @foreach ($barang as $b)
+                            //             if ( barangid == '{{$b->id}}' ) {
+                            //                 beratTotal += {{$b->berat_barang}};
+                            //             }
+                            //             @endforeach
+                            //         }
+                            //         let checkbox_terpilih = $("#table_scan tbody .check-barang:checked");
+                            //         let id_kode_rak =[];
+                            //         let kode_barang =[];
+                            //         $.each(checkbox_terpilih,function(index,elm){
+                            //             id_kode_rak.push(elm.value);
+                            //             kode_barang.push(elm.name);
+                            //         })
+                            //         var beratInputBarang=0;
+                            //         for (var i = 0; i < kode_barang.length; i++) {
+                            //             var barangKode = kode_barang[i];
+                            //             @foreach ($barang_scan as $s)
+                            //             if ( barangKode == '{{$s->kode_barang}}' ) {
+                            //                 beratInputBarang += {{$s->barang->berat_barang}};
+                            //             }
+                            //             @endforeach
+                            //         }
+                            //         var sisaDayaTampung = dayaTampung - beratTotal;
+                            //         if(beratInputBarang > sisaDayaTampung){
+                            //             Swal.fire({
+                            //                 icon: 'error',
+                            //                 title: 'Oops...',
+                            //                 text: 'Kurangi Barang, Daya tampung rak Tersisa:' + sisaDayaTampung + 'kg',
+                            //             });
+                            //         }else{
+                            //             for (var i = 0; i < id_kode_rak.length; i++) {
+                            //             var kodeRakElement = id_kode_rak[i];
+                            //             $("#" + kodeRakElement).val(contentRak);
+                            //             $("#" + kodeRakElement).parent().html(contentRak+` <input value="`+contentRak+`" type="hidden" name="kode_rak[]" class="form-control kode_rak border-0" id="kode_rak`+i+`" style="background:none;" placeholder="otomatis" readonly required>
+                            //                                                     <p class="help-block" style="display: none;"></p>`);
+                            //             }
+                            //             Swal.fire({
+                            //             position: 'center',
+                            //             icon: 'success',
+                            //             title: 'Scan Rak Berhasil',
+                            //             showConfirmButton: false,
+                            //             timer: 1500
+                            //             })
+                            //         }
             
-        }
-        $("#checkAll").on('click', function(){
-            var isChecked = $("#checkAll").prop('checked');
-            $(".check-barang").prop('checked', isChecked);
-            $("#tombol-scan-rak").prop('disabled', !isChecked);
-        })
-        $("#table_scan tbody").on('click','.check-barang', function(){
-            if($(this).prop('checked')!=true){
-                $("#checkAll").prop('checked',false);
+                            //     }else{
+                            //             Swal.fire({
+                            //             position: 'center',
+                            //             icon: 'warning',
+                            //             title: 'Qr Code Salah',
+                            //             showConfirmButton: false,
+                            //             timer: 1500
+                            //             })
+                            //         }
+                            //         scannerListenerRak = true;
+                            //         audioElement.play();
+                            // });
+                            
+                        }
+                    });
+
+                    
+                })
+                $('#scan_kamera_rak').on('hidden.bs.modal', function() {
+                    if (html5QrCode_R) {
+                        html5QrCode_R.stop();
+                    }
+                });
             }
-            let semua_checkbox=$("#table_scan tbody .check-barang:checked")
-            let button_scan_rak=(semua_checkbox.length>0)
-            $("#tombol-scan-rak").prop('disabled', !button_scan_rak);
-        })
+
+            $("#checkAll").on('click', function(){
+                var isChecked = $("#checkAll").prop('checked');
+                $(".check-barang").prop('checked', isChecked);
+                $("#tombol-scan-rak").prop('disabled', !isChecked);
+            })
+            
+            $("#table_scan tbody").on('click','.check-barang', function(){
+                if($(this).prop('checked')!=true){
+                    $("#checkAll").prop('checked',false);
+                }
+                let semua_checkbox=$("#table_scan tbody .check-barang:checked")
+                let button_scan_rak=(semua_checkbox.length>0)
+                $("#tombol-scan-rak").prop('disabled', !button_scan_rak);
+            })
         @endif
         var create = function(){
             $('#simpan').click( function(e) {

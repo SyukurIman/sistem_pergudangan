@@ -1,5 +1,6 @@
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js" rel="nofollow"></script>
+{{-- <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js" rel="nofollow"></script> --}}
+{{-- <script src="https://unpkg.com/html5-qrcode" type="text/javascript"> --}}
 
 <script>
     var data = function (){
@@ -345,146 +346,191 @@
                 
             @if($type == "barang_masuk")
                 // var scanner = new Instascan.Scanner({ video: document.getElementById('qr-reader'), scanPeriod: 5, mirror: false });
-                $("#tombol-scan-barang").on('click', function(){
-                    let scanner = new Instascan.Scanner({ video: document.getElementById('qr-reader'), mirror: false });
+                // $("#tombol-scan-barang").on('click', function(){
+                //     let scanner = new Instascan.Scanner({ video: document.getElementById('qr-reader'), mirror: false });
                 
-                    scanner.addListener('scan', function (content) {
-                        $.ajax({
-                            url : "/in_barang/"+content,
-                            type : "POST",
-                            dataType: "json",
-                            contentType: false,
-                            processData: false,
-                            beforeSend: function(){
-                                swal.fire({
-                                    html: '<h5>Loading...</h5>',
-                                    showConfirmButton: false
-                                });
-                                audioElement.play();
-                            },
-                            success: function(result){
-                                if(result.type == 'success'){
-                                    swal.fire({
-                                        title: result.title,
-                                        text : result.text,
-                                        confirmButtonColor: result.ButtonColor,
-                                        type : result.type,
-                                    });
-                                    $('#table').DataTable().ajax.reload();
-                                }else{
-                                    swal.fire({
-                                        title: result.title,
-                                        text : result.text,
-                                        confirmButtonColor: result.ButtonColor,
-                                        type : result.type,
-                                    });
-                                }
-                            }
-                        });
-                    });
+                //     scanner.addListener('scan', function (content) {
+                //         $.ajax({
+                //             url : "/in_barang/"+content,
+                //             type : "POST",
+                //             dataType: "json",
+                //             contentType: false,
+                //             processData: false,
+                //             beforeSend: function(){
+                //                 swal.fire({
+                //                     html: '<h5>Loading...</h5>',
+                //                     showConfirmButton: false
+                //                 });
+                //                 audioElement.play();
+                //             },
+                //             success: function(result){
+                //                 if(result.type == 'success'){
+                //                     swal.fire({
+                //                         title: result.title,
+                //                         text : result.text,
+                //                         confirmButtonColor: result.ButtonColor,
+                //                         type : result.type,
+                //                     });
+                //                     $('#table').DataTable().ajax.reload();
+                //                 }else{
+                //                     swal.fire({
+                //                         title: result.title,
+                //                         text : result.text,
+                //                         confirmButtonColor: result.ButtonColor,
+                //                         type : result.type,
+                //                     });
+                //                 }
+                //             }
+                //         });
+                //     });
 
-                    Instascan.Camera.getCameras().then(function (cameras) {
-                        if (cameras.length > 0) {
-                            scanner.start(cameras[0]);
-                            $('[name="options"]').on('change',function(){
-                                if($(this).val()==1){
-                                    if(cameras[0]!=""){
-                                        scanner.start(cameras[0]);
-                                    }else{
-                                        alert('No Front camera found!');
-                                    }
-                                }else if($(this).val()==2){
-                                    if(cameras[1]!=""){
-                                        scanner.start(cameras[1]);
-                                    }else{
-                                        alert('No Back camera found!');
-                                    }
-                                }
-                            });
-                        } else {
-                            console.error('No cameras found.');
-                        }
-                    }).catch(function (e) {
-                        console.error(e);
-                    });
-                })
+                //     Instascan.Camera.getCameras().then(function (cameras) {
+                //         if (cameras.length > 0) {
+                //             scanner.start(cameras[0]);
+                //             $('[name="options"]').on('change',function(){
+                //                 if($(this).val()==1){
+                //                     if(cameras[0]!=""){
+                //                         scanner.start(cameras[0]);
+                //                     }else{
+                //                         alert('No Front camera found!');
+                //                     }
+                //                 }else if($(this).val()==2){
+                //                     if(cameras[1]!=""){
+                //                         scanner.start(cameras[1]);
+                //                     }else{
+                //                         alert('No Back camera found!');
+                //                     }
+                //                 }
+                //             });
+                //         } else {
+                //             console.error('No cameras found.');
+                //         }
+                //     }).catch(function (e) {
+                //         console.error(e);
+                //     });
+                // })
+
+                const html5QrCode = new Html5Qrcode("qr-reader");
+                const config = { fps: 1, qrbox: { width: 250, height: 250 }, mirror: false};
 
                 $('#scan_kamera_barang').on('hidden.bs.modal', function() {
-                    if (scanner) {
-                        scanner.stop();
+                    if (html5QrCode) {
+                        html5QrCode.stop()
                     }
                 });
+
+                const qrCodeSuccessCallback = (content, decodedResult) => {
+                    $.ajax({
+                        url : "/in_barang/"+content,
+                        type : "POST",
+                        dataType: "json",
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function(){
+                            swal.fire({
+                                html: '<h5>Loading...</h5>',
+                                showConfirmButton: false
+                            });
+                            audioElement.play();
+                        },
+                        success: function(result){
+                            if(result.type == 'success'){
+                                swal.fire({
+                                    title: result.title,
+                                    text : result.text,
+                                    confirmButtonColor: result.ButtonColor,
+                                    type : result.type,
+                                });
+                                $('#table').DataTable().ajax.reload();
+                            }else{
+                                swal.fire({
+                                    title: result.title,
+                                    text : result.text,
+                                    confirmButtonColor: result.ButtonColor,
+                                    type : result.type,
+                                });
+                            }
+                        }
+                    });
+                };
+
+                $("#tombol-scan-barang").on('click', function () {
+                    html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+                });
+
+                $('[name="options"]').on('change',function(){
+                    console.log('Ubah')
+                    html5QrCode.stop()
+                    setTimeout(() => {
+                        if($(this).val()==1){
+                            html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+                        } else {
+                            html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+                        }
+                    }, 100);
+                    
+                })
                 
 
             @elseif($type == "barang_keluar")
-                $("#tombol-scan-barang").on('click', function(){
-                    let scanner = new Instascan.Scanner({ video: document.getElementById('qr-reader'), mirror: false });
-                
-                    scanner.addListener('scan', function (content) {
-                        $.ajax({
-                            url : "/out_barang/"+content,
-                            type : "POST",
-                            dataType: "json",
-                            contentType: false,
-                            processData: false,
-                            beforeSend: function(){
-                                swal.fire({
-                                    html: '<h5>Loading...</h5>',
-                                    showConfirmButton: false
-                                });
-                                audioElement.play();
-                            },
-                            success: function(result){
-                                if(result.type == 'success'){
-                                    swal.fire({
-                                        title: result.title,
-                                        text : result.text,
-                                        confirmButtonColor: result.ButtonColor,
-                                        type : result.type,
-                                    });
-                                    $('#table').DataTable().ajax.reload();
-                                }else{
-                                    swal.fire({
-                                        title: result.title,
-                                        text : result.text,
-                                        confirmButtonColor: result.ButtonColor,
-                                        type : result.type,
-                                    });
-                                }
-                                
-                            }
-                        });
-                    });
+                const html5QrCode = new Html5Qrcode("qr-reader");
+                const config = { fps: 1, qrbox: { width: 250, height: 250 }, mirror: false};
 
-                    Instascan.Camera.getCameras().then(function (cameras) {
-                        if (cameras.length > 0) {
-                            scanner.start(cameras[0]);
-                            $('[name="options"]').on('change',function(){
-                                if($(this).val()==1){
-                                    if(cameras[0]!=""){
-                                        scanner.start(cameras[0]);
-                                    }else{
-                                        alert('No Front camera found!');
-                                    }
-                                }else if($(this).val()==2){
-                                    if(cameras[1]!=""){
-                                        scanner.start(cameras[1]);
-                                    }else{
-                                        alert('No Back camera found!');
-                                    }
-                                }
+                const qrCodeSuccessCallback = (content, decodedResult) => {
+                    $.ajax({
+                        url : "/out_barang/"+content,
+                        type : "POST",
+                        dataType: "json",
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function(){
+                            swal.fire({
+                                html: '<h5>Loading...</h5>',
+                                showConfirmButton: false
                             });
-                        } else {
-                            console.error('No cameras found.');
+                            audioElement.play();
+                        },
+                        success: function(result){
+                            if(result.type == 'success'){
+                                swal.fire({
+                                    title: result.title,
+                                    text : result.text,
+                                    confirmButtonColor: result.ButtonColor,
+                                    type : result.type,
+                                });
+                                $('#table').DataTable().ajax.reload();
+                            }else{
+                                swal.fire({
+                                    title: result.title,
+                                    text : result.text,
+                                    confirmButtonColor: result.ButtonColor,
+                                    type : result.type,
+                                });
+                            }
+                            
                         }
-                    }).catch(function (e) {
-                        console.error(e);
                     });
+                }
+
+                $("#tombol-scan-barang").on('click', function () {
+                    html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+                });
+
+                $('[name="options"]').on('change',function(){
+                    console.log('Ubah')
+                    html5QrCode.stop()
+                    setTimeout(() => {
+                        if($(this).val()==1){
+                            html5QrCode.start({ facingMode: "user" }, config, qrCodeSuccessCallback);
+                        } else {
+                            html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+                        }
+                    }, 100);
                 })
                 
                 $('#scan_kamera_barang').on('hidden.bs.modal', function() {
-                    if (scanner) {
-                        scanner.stop();
+                    if (html5QrCode) {
+                        html5QrCode.stop();
                     }
                 });
             @endif
